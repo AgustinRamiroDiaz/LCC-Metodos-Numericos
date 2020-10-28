@@ -143,11 +143,113 @@ function [x,a,SR,MD] = gausselimCount(A,b)
         sumk = 0
         for k=i+1:n
             sumk = sumk + a(i,k)*x(k);
-            SD = SD + 1
+            SR = SR + 1
             MD = MD + 1
         end;
         x(i) = (a(i,n+1)-sumk)/a(i,i);
-        SD = SD + 1
+        SR = SR + 1
         MD = MD + 1
     end;
 endfunction
+
+gausselimCount([1 1 0 4; 2 1 -1 1; 4 -1 -2 2; 3 -1 -1 2], [2 1 0 -3]')
+
+// x  = 
+// -4.       
+//  0.6666667
+// -7.       
+//  1.3333333
+// a  = 
+//  1.   1.   0.   4.    2.
+//  0.  -1.  -1.  -7.   -3.
+//  0.   0.   3.   21.   7.
+//  0.   0.   0.  -3.   -4.
+// SR  = 
+//  29.
+// MD  = 
+//  49.
+
+
+// d
+function [x,a] = gausselimCorta(A,b)
+    // Esta función obtiene la solución del sistema de ecuaciones lineales A*x=b, 
+    // dada la matriz de coeficientes A y el vector b.
+    // La función implementa el método de Eliminación Gaussiana sin pivoteo.  
+    
+    [nA,mA] = size(A) 
+    [nb,mb] = size(b)
+    
+    if nA<>mA then
+        error('gausselim - La matriz A debe ser cuadrada');
+        abort;
+    elseif mA<>nb then
+        error('gausselim - dimensiones incompatibles entre A y b');
+        abort;
+    end;
+    
+    a = [A b]; // Matriz aumentada
+    
+    // Eliminación progresiva
+    n = nA;
+    for k=1:n-1
+        for i=k+1:n
+            a(i,k+1:n+1) = a(i,k+1:n+1) - a(k,k+1:n+1)*a(i,k)/a(k,k);
+            a(i,1:k) = 0;  // no hace falta para calcular la solución x
+        end;
+    end;
+
+    Aprima = a(:, 1:n)
+    bprima = a(:, n + 1)
+
+    
+    // Sustitución regresiva
+    x(n) = bprima(n) / Aprima(n, n)
+    for i = n-1 : -1 : 1
+        x(i) = (bprima(i) - Aprima(i, i + 1 : n) * x(i + 1 : n)) / Aprima(i, i)
+    end
+endfunction
+
+gausselimCorta([1 1 0 4; 2 1 -1 1; 4 -1 -2 2; 3 -1 -1 2], [2 1 0 -3]')
+
+// ans  =
+
+//   -4.       
+//    0.6666667
+//   -7.       
+//    1.3333333
+
+
+// 4
+function d = determinante(A)
+    [n,m] = size(A) 
+    
+    if n<>m then
+        error('gausselim - La matriz debe ser cuadrada');
+        abort;
+    end
+        
+    a = A
+    // Eliminación progresiva
+    for k=1:n-1
+        for i=k+1:n
+            a(i,k+1:n) = a(i,k+1:n) - a(k,k+1:n)*a(i,k)/a(k,k);
+            a(i,1:k) = 0; 
+        end;
+    end;
+
+    d = prod(diag(a))
+endfunction
+
+determinante([1 1 0 4; 2 1 -1 1; 4 -1 -2 2; 3 -1 -1 2])
+// ans = 9
+
+
+
+
+
+
+
+
+// 5
+
+// a
