@@ -365,3 +365,27 @@ endfunction
 
 
 // 6
+
+function [L U] = factorizacionPALU(A)
+    U = A
+    L = eye(A)
+    P = eye(A)
+    for k = 1:m-1
+        ipivot = k; umax = abs(U(k,k));  //pivoteo
+        for i=k+1:n
+            if abs(U(i,k)) > umax then
+                ipivot = i; umax = A(k,i);
+            end;
+        end;
+        temp = U(ipivot, k:m); U(ipivot, k:m) = U(k, k:m); U(k, k:m) = temp;
+        temp = L(ipivot, 1:k-1); L(ipivot, 1:k-1) = L(k, 1:k-1); L(k, 1:k-1) = temp;
+        temp = P(ipivot, :); P(ipivot, :) = P(k, :); P(k, :) = temp;
+
+        for j = k+1:m
+            L(j, k) = U(j, k) / U(k, k)
+            U(j, k:m) = U(j, k:m) - L(j, k) * U(k, k:m)
+        end
+
+endfunction
+
+// TODO testear con la matriz A dada por el ejercicio
