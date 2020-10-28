@@ -87,7 +87,6 @@ A = [1 -1 2 -1; 2 -2 3 -3; 1 1 1 0; 1 -1 4 3]
 b = [-8 -20 -2 4]'
 
 gausselim(A, b)
-
 //  [Nan Nan Nan Nan]'
 
 
@@ -201,7 +200,6 @@ function [x,a] = gausselimCorta(A,b)
     Aprima = a(:, 1:n)
     bprima = a(:, n + 1)
 
-    
     // Sustitución regresiva
     x(n) = bprima(n) / Aprima(n, n)
     for i = n-1 : -1 : 1
@@ -253,3 +251,117 @@ determinante([1 1 0 4; 2 1 -1 1; 4 -1 -2 2; 3 -1 -1 2])
 // 5
 
 // a
+function [x,a] = gausselimPP(A,b)
+    // Esta función obtiene la solución del sistema de ecuaciones lineales A*x=b, 
+    // dada la matriz de coeficientes A y el vector b.
+    // La función implementa el método de Eliminación Gaussiana con pivoteo parcial.
+    
+    [nA,mA] = size(A) 
+    [nb,mb] = size(b)
+    
+    if nA<>mA then
+        error('gausselim - La matriz A debe ser cuadrada');
+        abort;
+    elseif mA<>nb then
+        error('gausselim - dimensiones incompatibles entre A y b');
+        abort;
+    end;
+    
+    a = [A b]; // Matriz aumentada
+    n = nA;    // Tamaño de la matriz
+    
+    // Eliminación progresiva con pivoteo parcial
+    for k=1:n-1
+        kpivot = k; amax = abs(a(k,k));  //pivoteo
+        for i=k+1:n
+            if abs(a(i,k))>amax then
+                kpivot = i; amax = a(k,i);
+            end;
+        end;
+        temp = a(kpivot,:); a(kpivot,:) = a(k,:); a(k,:) = temp;
+        
+        for i=k+1:n
+            for j=k+1:n+1
+                a(i,j) = a(i,j) - a(k,j)*a(i,k)/a(k,k);
+            end;
+            for j=1:k        // no hace falta para calcular la solución x
+                a(i,j) = 0;  // no hace falta para calcular la solución x
+            end              // no hace falta para calcular la solución x
+        end;
+    end;
+    
+    Aprima = a(:, 1:n)
+    bprima = a(:, n + 1)
+
+    // Sustitución regresiva
+    x(n) = bprima(n) / Aprima(n, n)
+    for i = n-1 : -1 : 1
+        x(i) = (bprima(i) - Aprima(i, i + 1 : n) * x(i + 1 : n)) / Aprima(i, i)
+    end
+endfunction
+
+// b
+// i
+A = [1 1 0 3; 2 1 -1 1; 3 -1 -1 2; -1 2 3 -1]
+b = [4 1 -3 4]' 
+
+gausselimPP(A, b)
+//  [-1. 2. 0. 1.]'
+
+// ii
+A = [1 -1 2 -1; 2 -2 3 -3; 1 1 1 0; 1 -1 4 3]
+b = [-8 -20 -2 4]'
+
+gausselimPP(A, b)
+//  [-7 3 2 2]'
+
+
+// iii
+A = [1 1 0 4; 2 1 -1 1; 4 -1 -2 2; 3 -1 -1 2]
+b = [2 1 0 -3]'
+
+gausselimPP(A, b)
+// [-4. 0.6666667 -7. 1.3333333]'
+
+
+
+
+// 6
+
+function x = resolverTridiagonal(A, b)
+    [nA,mA] = size(A) 
+    [nb,mb] = size(b)
+    
+    if nA<>mA then
+        error('gausselim - La matriz A debe ser cuadrada');
+        abort;
+    elseif mA<>nb then
+        error('gausselim - dimensiones incompatibles entre A y b');
+        abort;
+    end;
+    
+    a = [A b]; // Matriz aumentada
+    n = nA;    // Tamaño de la matriz
+
+    for k=2:n
+        a(k, :) = a(k, :) - a(k-1, :)*a(k,k-1)/a(k-1,k-1);
+    end;
+    
+    Aprima = a(:, 1:n)
+    bprima = a(:, n + 1)
+
+    // Sustitución regresiva
+    x(n) = bprima(n) / Aprima(n, n)
+    for i = n-1 : -1 : 1
+        x(i) = (bprima(i) - Aprima(i, i + 1 : n) * x(i + 1 : n)) / Aprima(i, i)
+    end
+endfunction
+
+// TODO contar la cantidad de operaciones
+
+
+
+
+
+
+// 6
