@@ -539,3 +539,125 @@ endfunction
 
 // La diferencia parece radicar en que la funcion lu de Scilab 
 // no utiliza LU = PA sino LU = A
+
+
+
+// Ejercicio 9 
+
+// TODO
+
+
+// Ejercicio 10
+
+// Dada una matriz A obtiene la factorizacion A=LU 
+// a partir del método de Doolittle
+function [L, U] = factorizacionDoolittle(A)
+    [m,n] = size(A) 
+    
+    if n<>m then
+        error('factorizacionDoolittle - La matriz A debe ser cuadrada');
+        abort;
+    end
+
+    L = zeros(size(A));
+    U = zeros(size(A));
+
+    for j=1:n
+        for i=1:m
+        // Si estamos por encima de la diagonal, hallamos el elemento de U
+            if i<=j
+            U(i,j) = A(i,j);
+                for k=1:i-1
+                    U(i,j) = U(i,j) - L(i,k)*U(k,j);
+                end
+            end    
+        // Si estamos por debajo de la diagonal, hallamos el elemento de L
+            if j<=i
+                L(i,j) = A(i,j);
+                for k=1:j-1
+                    L(i,j) = L(i,j) - L(i,k)*U(k,j);
+                end
+                L(i,j) = L(i,j)/U(j,j);
+            end
+        end
+    end
+endfunction
+
+
+// Dada una matriz A y un vector b
+// resuelve el sistema de ecuaciones asociado 
+// aplicando la factorización de Doolittle
+function x = resolverDoolittle(A, b)
+    [L, U] = factorizacionDoolittle(A)
+    y = resolverTriangularInferior(L, b)
+    x = resolverTriangularSuperior(U, y)
+endfunction
+
+
+// --> A = [1 2 3 4; 1 4 9 16; 1 8 27 64; 1 16 81 256];
+
+// --> b = [2 10 44 190]';
+
+// --> resolverDoolittle(A,b)
+//  ans  =
+
+//   -1.
+//    1.
+//   -1.
+//    1.
+
+
+
+// Ejercicio 11
+
+// a)
+function [U,ind] = cholesky(A)
+    // Factorización de Cholesky.
+    // Trabaja únicamente con la parte triangular superior.
+    //
+    // ind = 1  si se obtuvo la factorización de Cholesky.
+    //     = 0  si A no es definida positiva
+    //
+    //******************
+    eps = 1.0e-8
+    //******************
+    
+    n = size(A,1)
+    U = zeros(n,n)
+    
+    for k = 1:n
+        t = A(k,k) - U(1:k-1,k)'*U(1:k-1,k)
+        if t <= eps then
+            printf('Matriz no definida positiva.\n')
+            ind = 0
+            return
+        end
+        U(k,k) = sqrt(t)
+        for j = k+1:n
+            U(k,j) = ( A(k,j) - U(1:k-1,k)'*U(1:k-1,j) )/U(k,k)
+        end
+    end
+    ind = 1
+endfunction
+
+// b)
+
+// TODO anda mal la función cholesky
+// A = [16 -12 8 -16; -12 18 -6 9; 8 -6 5 -10; -16 9 -10 46];
+// B = [4 1 1; 8 2 2; 1 2 3]
+// C = [1 2; 2 4]
+
+// 12
+
+// Resuelve el sistema Ax=b utilizando la factorización de cholesky
+// y luego haciendo 2 sustituciones (regresiva y progresiva)
+function x = resolverCholesky(A, b)
+    [U,ind] = cholesky(A)
+    if ind == 0 then
+        error('resolverCholesky - La matriz A debe ser definida positiva');
+        abort;
+    end
+
+    g = resolverTriangularInferior (U', b)
+    x = resolverTriangularSuperior (U, g)
+endfunction
