@@ -327,8 +327,7 @@ gausselimPP(A, b)
 
 
 // 6
-
-function x = resolverTridiagonal(A, b)
+function x = resolverDiagonal(A, b)
     [nA,mA] = size(A) 
     [nb,mb] = size(b)
     
@@ -339,34 +338,84 @@ function x = resolverTridiagonal(A, b)
         error('gausselim - dimensiones incompatibles entre A y b');
         abort;
     end;
-    
-    a = [A b]; // Matriz aumentada
-    n = nA;    // Tamaño de la matriz
 
-    for k=2:n
-        a(k, :) = a(k, :) - a(k-1, :)*a(k,k-1)/a(k-1,k-1);
-    end;
-    
-    Aprima = a(:, 1:n)
-    bprima = a(:, n + 1)
+    n = nA
 
-    // Sustitución regresiva
-    x(n) = bprima(n) / Aprima(n, n)
-    for i = n-1 : -1 : 1
-        x(i) = (bprima(i) - Aprima(i, i + 1 : n) * x(i + 1 : n)) / Aprima(i, i)
+    for k = 1:n
+        x(k) = b(k) / A(k, k)
     end
+
 endfunction
 
-// TODO contar la cantidad de operaciones
+function [x, cop] = resolverTridiagonal(A, b)
+    [nA,mA] = size(A) 
+    [nb,mb] = size(b)
+    
+    if nA<>mA then
+        error('gausselim - La matriz A debe ser cuadrada');
+        abort;
+    elseif mA<>nb then
+        error('gausselim - dimensiones incompatibles entre A y b');
+        abort;
+    end;
+
+    n = nA
+    cop = 0     // cantidad de operaciones
+
+    // Borro la diagonal inferior
+    for k=2:n
+        multiplicador = A(k,k-1) / A(k-1,k-1)
+        
+        A(k, k) = A(k, k) - A(k-1, k) * multiplicador
+        A(k, k-1) = 0
+        
+        b(k) = b(k) - b(k-1) * multiplicador
+        
+        cop = cop + 5
+    end;
+    
+    // Borro la diagonal superior
+    for k=n-1:-1:1
+        multiplicador = A(k,k+1) / A(k+1,k+1)
+        
+        A(k, k+1) = 0;
+        
+        b(k) = b(k) - b(k+1) * multiplicador
+
+        cop = cop + 3
+    end;
+
+    x = resolverDiagonal(A, b)
+endfunction
+
+// --> A = [1 2 0 0 0; 3 4 5 0 0; 0 6 7 8 0; 0 0 9 10 11; 0 0 0 12 13];
+// --> b = [1 2 3 4 5]';
+// --> [x, cop] = resolverTridiagonal(A,b)
+//  x  = 
+//    0.122449 
+//    0.4387755
+//   -0.0244898
+//    0.0673469
+//    0.322449 
+//  cop  = 
+//    32.
 
 
 
 
 
+// Ejercicio 7
 
-// 6
+// Dada una matriz A obtiene la factorizacion PA=LU 
+// a partir de la eliminacion de Gauss con pivoteo parcial
+function [L, U, P] = factorizacionPALU(A)
+    [n,m] = size(A) 
+    
+    if n<>m then
+        error('gausselim - La matriz A debe ser cuadrada');
+        abort;
+    end
 
-function [L U] = factorizacionPALU(A)
     U = A
     L = eye(A)
     P = eye(A)
@@ -380,12 +429,113 @@ function [L U] = factorizacionPALU(A)
         temp = U(ipivot, k:m); U(ipivot, k:m) = U(k, k:m); U(k, k:m) = temp;
         temp = L(ipivot, 1:k-1); L(ipivot, 1:k-1) = L(k, 1:k-1); L(k, 1:k-1) = temp;
         temp = P(ipivot, :); P(ipivot, :) = P(k, :); P(k, :) = temp;
-
+        
         for j = k+1:m
             L(j, k) = U(j, k) / U(k, k)
             U(j, k:m) = U(j, k:m) - L(j, k) * U(k, k:m)
         end
-
+    end
 endfunction
+    
+// --> A = [2 1 1 0; 4 3 3 1; 8 7 9 5; 6 7 9 8];
 
-// TODO testear con la matriz A dada por el ejercicio
+// --> [L, U, P] = factorizacionPALU(A)
+//  L  = 
+
+//    1.          0.          0.          0.
+//    1.3333333   1.          0.          0.
+//    0.6666667   0.7142857   1.          0.
+//    0.3333333   0.5714286   0.3333333   1.
+//  U  = 
+
+//    6.   7.          9.          8.       
+//    0.  -2.3333333  -3.         -5.6666667
+//    0.   0.         -0.8571429  -0.2857143
+//    0.   0.          0.          0.6666667
+//  P  = 
+
+//    0.   0.   0.   1.
+//    0.   0.   1.   0.
+//    0.   1.   0.   0.
+//    1.   0.   0.   0.
+
+
+
+
+
+// Ejercicio 8
+
+// a)
+
+// --> A = [1.012 -2.132 3.104; -2.132 4.096 -7.013; 3.104 -7.013 0.014];
+// --> [L, U, P] = factorizacionPALU(A)
+//  L  = 
+
+//    1.          0.          0.
+//   -0.6868557   1.          0.
+//    0.3260309  -0.2142473   1.
+//  U  = 
+
+//    3.104  -7.013       0.014    
+//    0.     -0.7209188  -7.003384 
+//    0.      0.          1.5989796
+//  P  = 
+
+//    0.   0.   1.
+//    0.   1.   0.
+//    1.   0.   0.
+
+// --> [L, U] = lu(A)
+//  L  = 
+
+//    0.3260309  -0.2142473   1.
+//   -0.6868557   1.          0.
+//    1.          0.          0.
+//  U  = 
+
+//    3.104  -7.013       0.014    
+//    0.     -0.7209188  -7.003384 
+//    0.      0.          1.5989796
+
+
+
+// b)
+
+// --> A = [-2.1756 4.0231 -2.1732 5.1967; -4.0231 6.0000 0 1.1973; -1.0000 5.2107 1.1111 0; 6.0235 7.0000 0 4.1561];
+
+// --> [L, U, P] = factorizacionPALU(A)
+//  L  = 
+
+//    1.          0.          0.          0.
+//   -0.6679007   1.          0.          0.
+//   -0.3611854   0.6136965   1.          0.
+//   -0.1660164   0.596968   -0.5112737   1.
+//  U  = 
+
+//    6.0235   7.          0.       4.1561   
+//    0.       10.675305   0.       3.9731622
+//    0.       0.         -2.1732   4.2595067
+//    0.       0.          0.       0.4959041
+//  P  = 
+
+//    0.   0.   0.   1.
+//    0.   1.   0.   0.
+//    1.   0.   0.   0.
+//    0.   0.   1.   0.
+
+// --> [L, U] = lu(A)
+//  L  = 
+
+//   -0.3611854   0.6136965   1.          0.
+//   -0.6679007   1.          0.          0.
+//   -0.1660164   0.596968   -0.5112737   1.
+//    1.          0.          0.          0.
+//  U  = 
+
+//    6.0235   7.          0.       4.1561   
+//    0.       10.675305   0.       3.9731622
+//    0.       0.         -2.1732   4.2595067
+//    0.       0.          0.       0.4959041
+
+// La diferencia parece radicar en que la funcion lu de Scilab 
+// no utiliza LU = PA sino LU = A
