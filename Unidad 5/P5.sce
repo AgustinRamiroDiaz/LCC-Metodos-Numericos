@@ -252,7 +252,7 @@ endfunction
 
 // a)
 
-// --> gauss_seidel(A,b,[0 0 0]', 1e-7, 1000)
+// --> gauss_seidel(A, b, [0 0 0]', 1e-7, 1000)
 //    36.
 //  ans  =
 //    3.0000001
@@ -263,3 +263,17 @@ endfunction
 // b)
 
 // TODO CALCULAR W Y UTILIZARLO PARA RESOLVER Ax=b
+
+// --> Dinv = inv(diag(diag(A)));
+// --> TJ = (eye(A) - Dinv * A);
+// --> rho = (max(abs(spec( TJ ))));
+// --> w = 2 / (1 + sqrt(1 - rho ^ 2 ));
+
+// --> SOR(A, b, w, [0 0 0]', 1e-7, 1000)
+//    16.
+//  ans  =
+//    3.
+//    4.
+//   -5.
+
+// Notemos que tardó 16 iteraciones en vez de 36 con el normal
