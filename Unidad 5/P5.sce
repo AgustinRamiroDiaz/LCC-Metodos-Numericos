@@ -217,3 +217,49 @@ endfunction
 // --> t
 //  t  = 
 //    1.1827675
+
+
+// Ejercicio 5
+
+// Resuelve el sistema lineal Ax=b con el método de sobrerrelajación (SOR)
+// comenzando desde x con una tolerancia de eps
+// con un máximo de iteraciones maxIter
+// con w coeficiente de relajación
+function x = SOR(A, b, w, x, eps, maxIter)
+    n = size(A, 1)
+    xNuevo = x
+    for contador = 1:maxIter
+        xNuevo(1) = w/A(1, 1) * (b(1) - A(1, 2:n) * x(2:n)) + (1 - w) * x(1)
+        for i = 2:n-1
+            xNuevo(i) = w/A(i, i) * (b(i) - A(i, 1:i-1) * xNuevo(1 : i-1) - A(i, i+1:n) * x(i+1:n)) + (1 - w) * x(i)
+        end
+        xNuevo(n) = w/A(n, n) * (b(n) - A(n, 1:n-1) * xNuevo(1:n-1)) + (1 - w) * x(n)
+        if norm(xNuevo - x) < eps
+            x = xNuevo
+            // mostramos las iteraciones
+            disp (contador)
+            break
+        end
+        x = xNuevo
+    end
+endfunction
+
+
+// --> A = [4 3 0; 3 4 -1; 0 -1 4];
+
+// --> b = [24 30 -24]';
+
+
+// a)
+
+// --> gauss_seidel(A,b,[0 0 0]', 1e-7, 1000)
+//    36.
+//  ans  =
+//    3.0000001
+//    3.9999999
+//   -5.       
+
+
+// b)
+
+// TODO CALCULAR W Y UTILIZARLO PARA RESOLVER Ax=b
