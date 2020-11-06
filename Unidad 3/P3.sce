@@ -248,6 +248,35 @@ endfunction
 // mientras que el resto nos permitieron entcontrar el cercano a 0.6
 
 
+// Ejercicio 9
+function y = F9(x)
+  y(1) = 1 + x(1)^2 - x(2)^ 2 + exp(x(1)) * cos(x(2))
+  y(2) = (2 * x(1) * x(2)) + (exp(x(1)) * sin(x(2)))
+endfunction
+
+function x = Ejercicio9()
+    x = [-1 4]'
+    for i = 1:5
+        Jinv = inv(numderivative(F9, x))
+        x = x - (Jinv * F9(x))
+    end
+endfunction
+
+// --> Ejercicio9()
+//  ans  =
+//   -0.2931627
+//    1.1726598
+
+// --> F9(ans)
+//  ans  =
+//   -7.412D-10
+//    7.507D-10
+
+
+
+
+// Ejercicio 10
+
 
 // Dado un sitema de ecuaciones F y un punto inicial x,
 // obtiene una solución aproximada al sistema F(v) = 0 con el método de newton multivariable
@@ -264,19 +293,6 @@ function v = metodo_newton_multivariable(F, x, eps, iter)
 endfunction
 
 
-// Ejercicio 9
-function y = F9(x)
-  y(1) = 1 + x(1)^2 - x(2)^ 2 + exp(x(1)) * cos(x(2))
-  y(2) = (2 * x(1) * x(2)) + (exp(x(1)) * sin(x(2)))
-endfunction
-
-// --> metodo_newton_multivariable(F9, [-1,4]', 1e-8, 5)
-//  ans  =
-//   -0.2931627
-//    1.1726598
-
-
-// Ejercicio 10
 function y = F10(x)
   y(1) = x(1)^2 + (x(1) * x(2)^3) - 9
   y(2) = (3 * x(1)^2 * x(2)) - 4 - x(2)^3
@@ -332,20 +348,74 @@ function y = f(x)
   y = 2 * x(1) + 3 * x(2)^2 + exp((2 * x(1)^2) + x(2)^2)
 endfunction
 
-function y = dF(x)
+function y = F11(x)
   y(1) = 2 + exp(2*x(1)^2 + x(2)^2) * 4*x(1)
   y(2) = 6 * x(2) + exp(2*x(1)^2 + x(2)^2) * 2*x(2)
 endfunction
 
-// --> [v, tipo] = minimo_maximos_locales(dF, [1,1]', 10^-12)
-//  tipo  = 
-//    1.
-//  v  = 
+
+// Dado un sitema de ecuaciones F y un punto inicial x,
+// obtiene una solución aproximada al sistema F(v) = 0 con el método de newton multivariable
+// con un criterio de finalización norm(x(k) - x(k-1)) <= eps y un máximo iter de iteraciones
+function v = Ejercicio11(F, x, eps, iter)
+    for i = 1: iter
+        Jinv = inv(numderivative(F, x))
+        xNuevo = x - (Jinv * F(x))
+        if norm(xNuevo - x) <= eps then
+            v = x; return
+        end
+        x = xNuevo
+    end
+    v = %nan
+endfunction
+
+// a)
+
+// --> r = Ejercicio11(F11, [1 1]', 1e-12, 1000)
+//  r  = 
 //   -0.3765446
 //    2.640D-16
 
-// --> f(v)
+// --> F11(r)
 //  ans  =
-//    0.5747748
+//   -1.399D-13
+//    2.285D-15
 
 
+// b)
+// --> numderivative(F11, r)
+//  ans  =
+//    8.3238127   0.      
+//   -1.056D-15   8.655728
+
+// Vemos sus autovalores
+// --> spec(ans)
+//  ans  =
+//    8.655728  + 0.i
+//    8.3238127 + 0.i
+
+// Como son positivos, verifican (ii)
+
+
+
+// Ejercicio 12
+
+// TODO
+
+// a
+
+function y = g12(k, r)
+    y = k(1) * %e ^ (k(2) * r) + k(3) * r
+endfunction
+
+function y = F12(k)
+    y(1) = g12(k, 1) - 10
+    y(2) = g12(k, 2) - 12
+    y(3) = g12(k, 3) - 15
+endfunction
+
+function y = F12(k)
+    y(1) = k(1) * %e ^ k(2) + k(3) - 10
+    y(2) = k(1) * %e ^ (k(2) * 2) + k(3) * 2 - 12
+    y(3) = k(1) * %e ^ (k(2) * 3) + k(3) * 3 - 15
+endfunction
