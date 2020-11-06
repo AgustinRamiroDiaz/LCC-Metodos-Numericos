@@ -173,34 +173,37 @@ endfunction
 // Aplica el método de newton con la función f
 // partiendo desde x con una tolerancia de epsilon 
 // y un cantidad máxima de iteraciones iter
-function v = metodo_newton(f, x0, e, iter)
-  i = 0
-  xn = x0 - (f(x0) / numderivative(f, x0))
-  while (abs(xn - x0) > e) && (i < iter) then
-    x0 = xn
-    xn = x0 - (f(x0) / numderivative(f, x0))
-    i = i + 1
-  end
-
-  v = xn
+function x = metodo_newton(f, x, eps, iter)
+    for i = 1: iter
+        d = numderivative(f, x)
+        xNuevo = x - f(x) / d
+        if abs(xNuevo - x) < eps then
+            x = xNuevo; return
+        end
+        x = xNuevo
+    end
+    v = %nan    
 endfunction
-
 
 
 // Ejercicio 7
 
 function output = longitudDeOnda(d)
-    output = 4 * %pi ^ 2 / (5 ^ 2 * 9.8 * tanh (4 * d)) 
+    output = 4 * %pi ^ 2 / (25 * 9.8 * tanh (4 * d)) 
 endfunction
 
 // a)
 // --> metodo_punto_fijo(longitudDeOnda, 1, 1e-1)
 //  ans  =
-//    0.283551260367738
+//    0.2835513
 
 
 // b)
-// TODO
+// --> metodo_newton(longitudDeOnda, ans, 1e-4, 100)
+// ans  =
+//  Nan
+
+// TODO REVISAR
 
 
 
@@ -348,6 +351,7 @@ function y = f(x)
   y = 2 * x(1) + 3 * x(2)^2 + exp((2 * x(1)^2) + x(2)^2)
 endfunction
 
+// derivadas respecto de x e y
 function y = F11(x)
   y(1) = 2 + exp(2*x(1)^2 + x(2)^2) * 4*x(1)
   y(2) = 6 * x(2) + exp(2*x(1)^2 + x(2)^2) * 2*x(2)
@@ -400,9 +404,7 @@ endfunction
 
 // Ejercicio 12
 
-// TODO
-
-// a
+// a)
 
 function y = g12(k, r)
     y = k(1) * %e ^ (k(2) * r) + k(3) * r
@@ -414,8 +416,29 @@ function y = F12(k)
     y(3) = g12(k, 3) - 15
 endfunction
 
-function y = F12(k)
-    y(1) = k(1) * %e ^ k(2) + k(3) - 10
-    y(2) = k(1) * %e ^ (k(2) * 2) + k(3) * 2 - 12
-    y(3) = k(1) * %e ^ (k(2) * 3) + k(3) * 3 - 15
+
+// -> k = metodo_newton_multivariable(F12, [1 2 3]', 1e-12, 100)
+//  k  =
+//    8.7712864
+//    0.2596954
+//   -1.3722813
+
+// --> norm(F12(k))
+//  ans  =
+//    5.024D-15
+
+
+// b)
+
+// Dada la carga de 
+function y = g(x)
+    y = 500 / (%pi * x^2) - g12(k, x) 
 endfunction
+
+// --> metodo_biseccion(g, 1, 20, 1e-12)
+//  ans  =
+//    3.1851626
+
+// --> g(ans)
+//  ans  =
+//   -6.743D-12

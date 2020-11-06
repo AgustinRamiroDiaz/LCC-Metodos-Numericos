@@ -45,15 +45,91 @@ endfunction
 
 
 
-// a) TODO
-// b) TODO
+// a) y b)
+
+// --> A = [0 2 4; 1 -1 -1; 1 -1 2];
+// --> b = [0 .375 0]';
+
+
+// Dado que la diagonal de A no es invertible
+// y la triangular inferior asociada a A tampoco, 
+// no podemos aplicar los algoritmos
+// de jacobi y gauss_seidel
+// Entonces redefinimos el sistema como
+
+
+// --> A = [1 -1 1; 0 2 4; 1 -1 2];
+// --> b = [.375 0 0]';
+
+// A no es diagonal dominante por lo cual no podemos aplicar T3 ni T4
+
+// Jacobi:
+// Utilizando C1:
+// --> N = diag(diag(A));
+// --> m = eye(A) - inv(N) * A;
+// --> rho = (max(abs(spec( m ))))
+//  rho  =
+//    1.0942711
+// Que es mayor que 1, por lo tanto no podemos asegurar su convergencia
+
+// Gauss-Seidel:
+// Utilizando C1:
+// --> N = tril(A);
+// --> m = eye(A) - inv(N) * A;
+// --> rho = (max(abs(spec( m ))))
+//  rho  =
+//    1.280776
+// Que es mayor que 1, por lo tanto no podemos asegurar su convergencia
+
+
+
+
+// --> A = [1 -1 0; -1 2 -1; 0 -1 1.1];
+// --> b = [0 1 0]'; 
+
+// A no es diagonal dominante por lo cual no podemos aplicar T3 ni T4
+
+// Jacobi: 
+
+// Utilizando el Teorema 1:
+// --> N = diag(diag(A));
+// --> m = eye(A) - inv(N) * A;
+// --> norm(m)
+//  ans  =
+//    1.3514608
+// Que es mayor que 1, por lo tanto no podemos asegurar su convergencia con T1
+
+
+// Utilizando el C1:
+// --> rho = (max(abs(spec( m ))))
+//  rho  =
+//    0.9770084
+// Lo cual es menor que 1 => converge para cualquier vector inicial 
+
+
+// Gauss-Seidel:
+// Utilizando el Teorema 1:
+// --> N = tril(A);
+// --> m = eye(A) - inv(N) * A;
+// --> norm(m)
+//  ans  =
+//    1.2781759
+// Que es mayor que 1, por lo tanto no podemos asegurar su convergencia con T1
+
+// Utilizando el C1:
+// --> rho = (max(abs(spec( m ))))
+//  rho  =
+//    0.9545455
+// Lo cual es menor que 1 => converge para cualquier vector inicial 
 
 
 // c)
 
+// Utilizo el sistema con las filas alternadas:
+// --> A = [1 -1 1; 0 2 4; 1 -1 2];
+// --> b = [.375 0 0]';
 
-// --> A = [0 2 4; 1 -1 -1; 1 -1 2];
-// --> b = [0 .375 0]';
+// TODO
 
 
 
@@ -106,6 +182,20 @@ endfunction
 
 // Ejercicio 3 
 // TODO
+// A(i, i) = 2      para todo i
+// A(i, j) = -1     para i,j / |i-j| = 1
+// A(i, j) = 0      para el resto
+
+// Al estar aplicando el método de Gauss-Seidel,
+// La matriz N será
+[
+    2  0 0 ... 0
+    -1 2 0 ... 0
+    0 -1 2 ... 0
+    ............
+    0 ... 0 -1 2
+]
+
 
 
 

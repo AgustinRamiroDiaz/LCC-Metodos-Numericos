@@ -53,10 +53,10 @@ function [x,a] = gausselim(A,b)
     
     // Eliminación progresiva
     n = nA;
-    for k=1:n-1
-        for i=k+1:n
-            for j=k+1:n+1
-                a(i,j) = a(i,j) - a(k,j)*a(i,k)/a(k,k);
+    for k=1:n-1              // recorremos las filas
+        for i=k+1:n          // cada fila se la restamos a las filas sucesivas
+            for j=k+1:n+1    // recorremos las columnas
+                a(i,j) = a(i,j) - a(k,j)*a(i,k)/a(k,k); // restamos 
             end;
             for j=1:k        // no hace falta para calcular la solución x
                 a(i,j) = 0;  // no hace falta para calcular la solución x
@@ -67,10 +67,12 @@ function [x,a] = gausselim(A,b)
     // Sustitución regresiva
     x(n) = a(n,n+1)/a(n,n);
     for i = n-1:-1:1
+        // acumulamos la suma para poder hacer la sustitución
         sumk = 0
         for k=i+1:n
             sumk = sumk + a(i,k)*x(k);
         end;
+        // sustituimos con la suma
         x(i) = (a(i,n+1)-sumk)/a(i,i);
     end;
 endfunction
@@ -275,12 +277,15 @@ function [x,a] = gausselimPP(A,b)
     for k=1:n-1
         kpivot = k; amax = abs(a(k,k));  //pivoteo
         for i=k+1:n
+            // Buscamos para pivotear
             if abs(a(i,k))>amax then
                 kpivot = i; amax = a(k,i);
             end;
         end;
+        // Pivoteamos
         temp = a(kpivot,:); a(kpivot,:) = a(k,:); a(k,:) = temp;
         
+        // Restamos con el pivote
         for i=k+1:n
             for j=k+1:n+1
                 a(i,j) = a(i,j) - a(k,j)*a(i,k)/a(k,k);
@@ -614,8 +619,6 @@ endfunction
 
 // Ejercicio 11
 
-// TODO CORREGIR CHOLESKY
-
 // a)
 function [U,ind] = cholesky(A)
     // Factorización de Cholesky.
@@ -637,21 +640,24 @@ function [U,ind] = cholesky(A)
         ind = 0
         return
     end
+
+    // Obtenemos el primer elemento aplicando el caso base del algoritmo
     U(1,1) = sqrt(t)
     for j = 2:n
         U(1,j) = A(1,j)/U(1,1)
     end
-        
-    for k = 2:n
+    
+    for k = 2:n         // Recorremos las filas de U
+        // Calculamos el elemento de la diagonal de U
         t = A(k,k) - U(1:k-1,k)'*U(1:k-1,k)
         if t <= eps then
             printf('Matriz no definida positiva.\n')
             ind = 0
             return
         end
-        U(k,k) = sqrt(t)
-        for j = k+1:n
-            U(k,j) = ( A(k,j) - U(1:k-1,k)'*U(1:k-1,j) )/U(k,k)
+        U(k,k) = sqrt(t)    // Asignamos el elemento diagonal de U
+        for j = k+1:n       // Recorremos las columnas de U desde la diagonal en adelante
+            U(k,j) = ( A(k,j) - U(1:k-1,k)'*U(1:k-1,j) )/U(k,k) // Calculamos los valores por sobre la diagonal
         end
     end
     ind = 1
@@ -660,7 +666,6 @@ function [U,ind] = cholesky(A)
 
 // b)
 
-// TODO anda mal la función cholesky
 // --> A = [16 -12 8 -16; -12 18 -6 9; 8 -6 5 -10; -16 9 -10 46];
 // --> U = cholesky(A)
 //  U  = 
@@ -689,6 +694,7 @@ function [U,ind] = cholesky(A)
 //    0.  -2.220D-16   0.     
 
 // No funcionó correctamente en este caso
+// debido a que la matriz no es simétrica
 
 
 // --> C = [1 2; 2 4];
@@ -704,7 +710,9 @@ function [U,ind] = cholesky(A)
 //    0.   0.
 //    0.   0.
 
-// Funcionó correctamente aunque no C no fuera definida positiva
+// Funcionó correctamente 
+// Además vemos que no es definida positiva
+// por lo cual debe haber más factorizaciones de Cholesky (T6)
 
 
 
