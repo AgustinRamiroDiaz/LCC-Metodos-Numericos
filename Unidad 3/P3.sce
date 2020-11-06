@@ -5,23 +5,24 @@ function y = dibujar(f, x)
   a=gca();
   a.x_location = "origin";
   a.y_location = "origin";
+  xgrid(2)
   y = 0
 endfunction
 // --> dibujar(f1, [0:0.1:8])
-// Podemos ver que las primeras 3 raices positivas son:
-// x1 = 1.875
-// x2 = 4.6935
-// x3 = 7.8523
+// Podemos ver que las primeras 3 raices positivas son aproximadamente:
+// x1 = 2
+// x2 = 4.5
+// x3 = 8
 
 // metodo_biseccion :: (Float -> Float) Float Float Float -> Float
 // Dado una funcion y dos puntos (a y b / f(a) * f(b) < 0)
-// calcula la raiz de f en el interbalo [a, b] con un error de e
-function v = metodo_biseccion(f, a, b, e)
+// calcula la raiz de f en el interbalo [a, b] con un error máximo de eps
+function v = metodo_biseccion(f, a, b, eps)
   if (f(a) * f(b)) >= 0 then
     v = %nan
   else
     c = (a + b) / 2
-    while b - c > e then
+    while b - c > eps then
       if (f(b) * f(c)) <= 0 then
         a = c
       else
@@ -35,35 +36,53 @@ function v = metodo_biseccion(f, a, b, e)
 end
 
 // Ejercicio 2
+
+// a)
+
 // --> deff('y=g(x)', 'y = sin(x) - ((x^2)/2)')
-// --> plot([-1:0.1:2], g)
-// --> metodo_biseccion(g, -1, 1, 10^-2)
+// --> dibujar(g, [-1:0.1:2])
+// --> metodo_biseccion(g, -1, 1, 1e-2)
 //  ans  =
 //    0.0078125
-// --> metodo_biseccion(g, 1, 3, 10^-2)
+// --> metodo_biseccion(g, 1, 2, 1e-2)
 //  ans  =
 //    1.3984375
 
-// --> deff('y=g(x)', 'y = exp(-x) - x^4')
-// --> plot([-9:0.1:1], g)
-// --> metodo_biseccion(g, -2, -1, 10^-2)
+// b)
+// --> deff('y=g(x)', 'y = %e^(-x) - (x^4)')
+// --> dibujar(g, [-10:0.1:2])
+// --> metodo_biseccion(g, -10, -5, 10^-2)
 //  ans  =
-//   -1.4296875
-// --> metodo_biseccion(g, -2, -1, 10^-2)
+//    -8.603515625
+// --> metodo_biseccion(g, -5, 0, 1e-2)
 //  ans  =
-//   -1.4296875
-// --> metodo_biseccion(g, -2, -1, 10^-2)
+//    -1.435546875
+// --> metodo_biseccion(g, 0, 2, 10^-2)
 //  ans  =
-//  -1.4296875
+//    0.8203125
 
+// c)
+
+// Utilizando logaritmo natural
+// --> deff('y=g(x)', 'y = x - 1 - log(x)')
+// --> dibujar(g, [0:0.1:5])
+// --> metodo_biseccion(g, 0.5, 1.5, 1e-2)
+// ans  =
+//    Nan
+// Vemos que no se puede calcular con el método de la bisección
+// ya que la función es no negativa
+
+// Utilizando logaritmo base 10
 // --> deff('y=g(x)', 'y = x - 1 - log10(x)')
-// --> plot([-1:0.1:2], g)
-//--> metodo_biseccion(g, 0.1, 0.5, 10^-2)
-//  ans  =
-//  0.13125
-// --> metodo_biseccion(g, 0.5, 1.5, 10^-2)
+// --> dibujar(g, [0:0.1:5])
+// --> metodo_biseccion(g, 0.5, 1.5, 1e-2)
 //  ans  =
 //    1.0078125
+
+// --> metodo_biseccion(g, 0, .5, 1e-2)
+//  ans  =
+//    0.1328125
+
 
 // metodo_secante :: (Float -> Float) Float Float Float -> Float
 // Dado una funcion y dos puntos (x0 y x1) calcula la raiz en el interbalo
@@ -212,8 +231,8 @@ deff("y=g4(x)", "y=exp(x) - (2 * x)")
 // Vemos que Dg4(x) < 1 si x <= 1.1
 // Luego tambien vemos que, 0 <= x <= 1.1, 0 <= g4(x) <= 1.1
 
-Bautista Marelli, [28.10.20 15:28]
-Ahora podemos  obtener el resultado con:
+
+// Ahora podemos  obtener el resultado con:
 // --> metodo_punto_fijo(g4, 0, 10^-4)
 //  ans  =
 //    0.6190754
