@@ -1,4 +1,4 @@
-// 1
+// Ejercicio 1
 
 function x = resolverTriangularSuperior(A, b)
     [n,m] = size(A) 
@@ -8,11 +8,11 @@ function x = resolverTriangularSuperior(A, b)
     end
 endfunction
 
-A = [2 0 3; 0 3 2; 0 0 3]
-b = [1 2 3]'
-
-resolverTriangularSuperior(A, b)
-// [-1, 0, 1]'
+// --> A = [2 0 3; 0 3 2; 0 0 3];
+// --> b = [1 2 3]';
+// --> resolverTriangularSuperior(A, b);
+//  ans  =
+//    [-1, 0, 1]'
 
 
 function x = resolverTriangularInferior(A, b)
@@ -23,15 +23,16 @@ function x = resolverTriangularInferior(A, b)
     end
 endfunction
 
-A = [3 0 0; 3 2 0; 2 0 3]
-b = [1 2 3]'
+// --> A = [3 0 0; 3 2 0; 2 0 3];
+// --> b = [1 2 3]';
 
-resolverTriangularInferior(A, b)
-// [0.3333333 0.5 0.7777778]'
+// --> resolverTriangularInferior(A, b);
+//  ans  =
+//    [0.3333333 0.5 0.7777778]'
 
 
-// 2
-// a
+// Ejercicio 2
+// a)
 function [x,a] = gausselim(A,b)
     // Esta función obtiene la solución del sistema de ecuaciones lineales A*x=b, 
     // dada la matriz de coeficientes A y el vector b.
@@ -74,29 +75,31 @@ function [x,a] = gausselim(A,b)
     end;
 endfunction
 
-// b
-// i
-A = [1 1 0 3; 2 1 -1 1; 3 -1 -1 2; -1 2 3 -1]
-b = [4 1 -3 4]' 
+// b)
+// i)
+// --> A = [1 1 0 3; 2 1 -1 1; 3 -1 -1 2; -1 2 3 -1];
+// --> b = [4 1 -3 4]';
 
-gausselim(A, b)
-//  [-1. 2. 0. 1.]'
+// --> gausselim(A, b)
+//  ans  = 
+//    [-1. 2. 0. 1.]'
 
 // ii
-A = [1 -1 2 -1; 2 -2 3 -3; 1 1 1 0; 1 -1 4 3]
-b = [-8 -20 -2 4]'
+// --> A = [1 -1 2 -1; 2 -2 3 -3; 1 1 1 0; 1 -1 4 3];
+// --> b = [-8 -20 -2 4]';
 
-gausselim(A, b)
-//  [Nan Nan Nan Nan]'
-
+// --> gausselim(A, b)
+//  ans  =
+//    [Nan Nan Nan Nan]'
+// Parece ser que esta matriz necesita pivoteo
 
 // iii
+// --> A = [1 1 0 4; 2 1 -1 1; 4 -1 -2 2; 3 -1 -1 2];
+// --> b = [2 1 0 -3]';
 
-A = [1 1 0 4; 2 1 -1 1; 4 -1 -2 2; 3 -1 -1 2]
-b = [2 1 0 -3]'
-
-gausselim(A, b)
-// [-4. 0.6666667 -7. 1.3333333]'
+// --> gausselim(A, b)
+//  ans  =
+//    [-4. 0.6666667 -7. 1.3333333]'
 
 
 // c
@@ -151,8 +154,7 @@ function [x,a,SR,MD] = gausselimCount(A,b)
     end;
 endfunction
 
-gausselimCount([1 1 0 4; 2 1 -1 1; 4 -1 -2 2; 3 -1 -1 2], [2 1 0 -3]')
-
+// --> [x, a, SR, MD] = gausselimCount([1 1 0 4; 2 1 -1 1; 4 -1 -2 2; 3 -1 -1 2], [2 1 0 -3]')
 // x  = 
 // -4.       
 //  0.6666667
@@ -207,17 +209,15 @@ function [x,a] = gausselimCorta(A,b)
     end
 endfunction
 
-gausselimCorta([1 1 0 4; 2 1 -1 1; 4 -1 -2 2; 3 -1 -1 2], [2 1 0 -3]')
-
+// --> gausselimCorta([1 1 0 4; 2 1 -1 1; 4 -1 -2 2; 3 -1 -1 2], [2 1 0 -3]')
 // ans  =
-
 //   -4.       
 //    0.6666667
 //   -7.       
 //    1.3333333
 
 
-// 4
+// Ejercicio 4
 function d = determinante(A)
     [n,m] = size(A) 
     
@@ -238,8 +238,9 @@ function d = determinante(A)
     d = prod(diag(a))
 endfunction
 
-determinante([1 1 0 4; 2 1 -1 1; 4 -1 -2 2; 3 -1 -1 2])
-// ans = 9
+// --> determinante([1 1 0 4; 2 1 -1 1; 4 -1 -2 2; 3 -1 -1 2])
+//  ans  = 
+//    9
 
 
 
@@ -248,7 +249,7 @@ determinante([1 1 0 4; 2 1 -1 1; 4 -1 -2 2; 3 -1 -1 2])
 
 
 
-// 5
+// Ejercicio 5
 
 // a
 function [x,a] = gausselimPP(A,b)
@@ -302,31 +303,34 @@ endfunction
 
 // b
 // i
-A = [1 1 0 3; 2 1 -1 1; 3 -1 -1 2; -1 2 3 -1]
-b = [4 1 -3 4]' 
+// --> A = [1 1 0 3; 2 1 -1 1; 3 -1 -1 2; -1 2 3 -1];
+// --> b = [4 1 -3 4]' ;
 
-gausselimPP(A, b)
-//  [-1. 2. 0. 1.]'
+// --> gausselimPP(A, b);
+//  ans  =  
+//    [-1. 2. 0. 1.]'
 
 // ii
-A = [1 -1 2 -1; 2 -2 3 -3; 1 1 1 0; 1 -1 4 3]
-b = [-8 -20 -2 4]'
+// --> A = [1 -1 2 -1; 2 -2 3 -3; 1 1 1 0; 1 -1 4 3];
+// --> b = [-8 -20 -2 4]';
 
-gausselimPP(A, b)
-//  [-7 3 2 2]'
+// --> gausselimPP(A, b)
+//  ans  = 
+//    [-7 3 2 2]'
 
 
 // iii
-A = [1 1 0 4; 2 1 -1 1; 4 -1 -2 2; 3 -1 -1 2]
-b = [2 1 0 -3]'
+// --> A = [1 1 0 4; 2 1 -1 1; 4 -1 -2 2; 3 -1 -1 2];
+// --> b = [2 1 0 -3]';
 
-gausselimPP(A, b)
-// [-4. 0.6666667 -7. 1.3333333]'
+// --> gausselimPP(A, b)
+//  ans  =
+//    [-4. 0.6666667 -7. 1.3333333]'
 
 
 
 
-// 6
+// Ejercicio 6
 function x = resolverDiagonal(A, b)
     [nA,mA] = size(A) 
     [nb,mb] = size(b)
@@ -610,6 +614,8 @@ endfunction
 
 // Ejercicio 11
 
+// TODO CORREGIR CHOLESKY
+
 // a)
 function [U,ind] = cholesky(A)
     // Factorización de Cholesky.
@@ -625,7 +631,18 @@ function [U,ind] = cholesky(A)
     n = size(A,1)
     U = zeros(n,n)
     
-    for k = 1:n
+    t = A(1,1)
+    if t <= eps then
+        printf('Matriz no definida positiva.\n')
+        ind = 0
+        return
+    end
+    U(1,1) = sqrt(t)
+    for j = 2:n
+        U(1,j) = A(1,j)/U(1,1)
+    end
+        
+    for k = 2:n
         t = A(k,k) - U(1:k-1,k)'*U(1:k-1,k)
         if t <= eps then
             printf('Matriz no definida positiva.\n')
@@ -638,16 +655,61 @@ function [U,ind] = cholesky(A)
         end
     end
     ind = 1
-endfunction
+    
+    endfunction
 
 // b)
 
 // TODO anda mal la función cholesky
-// A = [16 -12 8 -16; -12 18 -6 9; 8 -6 5 -10; -16 9 -10 46];
-// B = [4 1 1; 8 2 2; 1 2 3]
-// C = [1 2; 2 4]
+// --> A = [16 -12 8 -16; -12 18 -6 9; 8 -6 5 -10; -16 9 -10 46];
+// --> U = cholesky(A)
+//  U  = 
+//    4.  -3.   2.  -4.
+//    0.   3.   0.  -1.
+//    0.   0.   1.  -2.
+//    0.   0.   0.   5.
+// --> norm(U'*U - A)
+//  ans  =
+//    0.
 
-// 12
+
+
+// --> B = [4 1 1; 8 2 2; 1 2 3];
+// --> [U, ind] = cholesky(B)
+//  U  = 
+//    2.   0.5         0.5      
+//    0.   1.3228757   1.3228757
+//    0.   0.          1.       
+//  ind  = 
+//    1.
+// --> U'*U-B
+//  ans  =
+//    0.   0.          0.       
+//   -7.   0.         -2.220D-16
+//    0.  -2.220D-16   0.     
+
+// No funcionó correctamente en este caso
+
+
+// --> C = [1 2; 2 4];
+// --> [U, ind] = cholesky(C)
+// Matriz no definida positiva.
+//  U  = 
+//    1.   2.
+//    0.   0.
+//  ind  = 
+//    0.
+// --> U'*U - C
+//  ans  =
+//    0.   0.
+//    0.   0.
+
+// Funcionó correctamente aunque no C no fuera definida positiva
+
+
+
+
+// Ejercicio 12
 
 // Resuelve el sistema Ax=b utilizando la factorización de cholesky
 // y luego haciendo 2 sustituciones (regresiva y progresiva)
@@ -661,3 +723,19 @@ function x = resolverCholesky(A, b)
     g = resolverTriangularInferior (U', b)
     x = resolverTriangularSuperior (U, g)
 endfunction
+
+// --> A = [16 -12 8; -12 18 -6; 8 -6 8];
+// --> b = [76 -66 46]';
+
+// --> resolverCholesky(A, b)
+//  ans  =
+//    3.
+//   -1.
+//    2.
+
+
+// --> A*ans - b
+//  ans  =
+//    0.
+//    0.
+//    0.
