@@ -84,24 +84,13 @@ end
 //    0.1328125
 
 
-// metodo_secante :: (Float -> Float) Float Float Float -> Float
-// Dado una funcion y dos puntos (x0 y x1) calcula la raiz en el interbalo
-// [x0, x1] con el metodo de la secante
-function v = metodo_secante(f, x0, x1, e)
-  while (abs(f(x1) - f(x0))) > e then
-    xn = x1 - (f(x1) * ((x1 - x0) / (f(x1) - f(x0))))
-    x0 = x1
-    x1 = xn
-  end
-
-  v = xn
-endfunction
-// 3
-
-//Recibe una funcion y dos puntos de un intervalo
-//Convergencia mas rapida que lineal
-//Convergencia no asegurada
-//Tratar de que F'(a) != 0
+// Ejercicio 3
+// Calcula por el método de la secante la raíz de f
+// En el intervalo [anterior, actual] con una tolerancia epsilon
+// (supone f continua)
+// Convergencia mas rapida que lineal
+// Convergencia no asegurada
+// Tratar de que F'(a) != 0
 function output = secante(f, anterior, actual, epsilon)
     while abs (f (actual) - f (anterior)) >= epsilon
         siguiente = actual - f (actual) * (actual - anterior) / (f (actual) - f (anterior))
@@ -111,29 +100,79 @@ function output = secante(f, anterior, actual, epsilon)
     output = actual
 endfunction
 
-function output = tres(x)
-    // Description of tres(x)
-    output = x * x / 4 - sin(x)
-endfunction
-// ans  =
-// 1.9337538
+// --> deff('y = g(x)', 'y = x * x / 4 - sin(x)')
+// --> dibujar(g, [0:.1:5]);
+// --> secante(g, 1.5, 2, 1e-12)
+//  ans  =
+//    1.933753762827021
+
+
 
 
 // Ejercicio 4
-// Al aplicar varias veces cos a un valor x, vemos que esto converge a un valor
-// aproximadamente: (Este es un punto fijo)
-// --> cos(ans)
-//  ans  =
-//    0.7392822
+// Usamos el Teorema 2 con g = cos, y obtenemos que existe una única solución de g(x) = x.
+// Por lo tanto, al aplicar reiteradas veces la función coseno obtenemos su punto fijo
 
-function v = metodo_punto_fijo(f, x0, e)
-  while abs(f(x0) - x0) > e then
-    x0 = f(x0)
-  end
-
-  v = x0
+// Aplica el método de punto fijo con la función f
+// partiendo desde x con una tolerancia de epsilon
+function output = metodo_punto_fijo(f, x, epsilon)
+    while abs (f (x) - x) > epsilon
+        x = f (x)
+    end
+    output = x
 endfunction
 
+
+//--> metodo_punto_fijo(cos, 100, 1e-12)
+//   ans  =
+//     0.739085133214757
+
+
+// Ejercicio 5
+// Usamos el Teorema 2
+// g (x) = 2 ^ (x - 1)
+// Buscamos que g' (x) < 1 => x < 1.53
+// Definimos a = -inf, b = 1.53
+// Corroboramos que si -inf <= x <= 1.53 => -inf <= g (x) <= 1.53
+// Por lo tanto, converge si partimos de un x < 1.53
+// Como la solución es única y sabemos que 1 es solución, entonces 1 es la única solución
+// Por lo tanto converge a 1
+
+// --> deff ('y = g(x)', 'y = 2^(x-1)')
+// --> metodo_punto_fijo(g, 1.5, 1e-12)
+//  ans  =
+//    1.000000000002622
+
+// --> metodo_punto_fijo(g, -100, 1e-12)
+//  ans  =
+//    0.999999999997722
+
+
+
+// Ejercicio 6
+// REVISAR HOJAS
+// Utilizaremos el Corolario 1 con alpha = -srqt(5)
+// Tenemos que g y g' son continuas en R, en particular alrededor de alpha
+// además 
+//      g'(x) = 1 + 2*c*x => g'(-sqrt(5)) = 1 - 2 * c * sqrt(5)
+// por lo tanto
+//      |g'(-sqrt(5))| < 1   <=>    0 < c < 1 / sqrt(5)
+// Además notemos que cuando c = 1/(2 * sqrt(5)), g'(-sqrt(5)) = 0 
+// dandonos el valor óptimo para la convergencia
+
+// c = 1/(2 * sqrt(5))
+// deff('y = g(x)', 'y = x + c * (x^2 - 5)')
+// --> metodo_punto_fijo(g, 0, 1e-12)
+//  ans  =
+//   -2.23606797749979
+// --> -sqrt(5)
+//   ans  =
+//    -2.23606797749979
+
+
+// Aplica el método de newton con la función f
+// partiendo desde x con una tolerancia de epsilon 
+// y un cantidad máxima de iteraciones iter
 function v = metodo_newton(f, x0, e, iter)
   i = 0
   xn = x0 - (f(x0) / numderivative(f, x0))
@@ -146,210 +185,147 @@ function v = metodo_newton(f, x0, e, iter)
   v = xn
 endfunction
 
-// Ejercicio 5
-// Usamos el Teorema 2
-// g (x) = 2 ^ (x - 1)
-// Buscamos que g' (x) < 1 => x < 1.53
-// Definimos a = -inf, b = 1.53
-// Corroboramos que si -inf <= x <= 1.53 => -inf <= g (x) <= 1.53
-// Por lo tanto, converge si partimos de un x < 1.53
-// Luego como la solucion es unica, podemos obtener esta con:
-// --> deff('y=g(x)', 'y = 2^(x-1)')
-// --> metodo_punto_fijo(g, 0, 10^-8)
-//  ans  =
-//    1.
 
 
 // Ejercicio 7
-
-function output = puntoFijo(f, x, epsilon)
-    // Description of puntoFijo(f, x, epsilon)
-    while abs (f (x) - x) > epsilon
-        x = f (x)
-    end
-    output = x
-endfunction
-
 
 function output = longitudDeOnda(d)
     output = 4 * %pi ^ 2 / (5 ^ 2 * 9.8 * tanh (4 * d)) 
 endfunction
 
-// a    0.2835513
+// a)
+// --> metodo_punto_fijo(longitudDeOnda, 1, 1e-1)
+//  ans  =
+//    0.283551260367738
 
-// b    
 
-// function output = metodoNewton(f, x, epsilon)
-//     output = puntoFijo(deff('y = newton(x)','y = x - f (x) / numderivative(f, x)'), x, epsilon)
-// endfunction
-
-function output = metodoNewton(f, x, epsilon)
-    while abs (f (x) - x) > epsilon
-        x = x - f (x) / numderivative(f, x)
-    end
-    output = x
-endfunction
-
+// b)
+// TODO
 
 
 
 
 // Ejercicio 8
-deff("y=g1(x)", "y=exp(x) / 3")
-// --> dibujar(g1, [-1:0.1:2])
-// Podemos ver que 0 <= x <= 1, 0 <= g1(x) <= 1
-// Luego g1'(x) < 1 en [0, 1]
+
+// --> deff("y=g1(x)", "y=%e^x / 3")
+// --> dibujar(g1, [-1:0.1:2]);
+// Podemos ver que 0 <= x <= 1 => 0 <= g1(x) <= 1
+// Y como |g1'(x)| < 1 en [0, 1]
 // Podemos obtener la solucion con:
-// --> metodo_punto_fijo(g1, 0, 10^-4)
+// --> metodo_punto_fijo(g1, 0, 1e-4)
 //  ans  =
 //    0.6188108
 
-deff("y=g2(x)", "y=(exp(x) - x) / 2")
-// --> deff("y=Dg2(x)", "y=(0.5)*(exp(x) - 1)")
-// --> dibujar(g2, [0:0.1:2])
-// Podemos ver que 0 <= x <= 1, 0 <= g2(x) <= 1
-// Si hacemos dibujar(Dg2, [0:0.1:1]) vemos que Dg2 < 1 en [0, 1]
+// --> deff("y=g2(x)", "y=(exp(x) - x) / 2")
+// --> dibujar(g2, [-1:0.1:2])
+// Podemos ver que 0 <= x <= 1 => 0 <= g1(x) <= 1
+// Y como |g2'(x)| < 1 en [0, 1]
 // Podemos obtener la solucion con:
-// --> metodo_punto_fijo(g2, 0, 10^-4)
+// --> metodo_punto_fijo(g2, .5, 1e-4)
 //  ans  =
 //    0.618952
 
-deff("y=g3(x)", "y=log(3*x)")
-// --> dibujar(g3, [0:0.1:4])
-// --> deff("y=Dg3(x)", "y=1/x")
-// Podemos ver que para x <= 3.5, g3(x) <= 3.5
-// Busquemos una cota inferior
-// Vemos que 1.2 <= x <= 3.5, Dg3(x) < 1
-// Ahora podemos obtener la solucion con:
-// --> metodo_punto_fijo(g3, 1.2, 10^-4)
+// --> deff("y=g3(x)", "y=log(3*x)")
+// --> dibujar(g3, [0:0.1:5]);
+// Podemos ver que 1.5 <= x <= 2 => 1.5 <= g3(x) <= 2
+// Entonces podemos obtener la solucion con:
+// Y como |g3'(x)| < 1 en [1.5, 2]
+// --> metodo_punto_fijo(g3, 1.5, 10^-4)
 //  ans  =
-//    1.511869
+//    1.5119381
 
-deff("y=g4(x)", "y=exp(x) - (2 * x)")
-// --> deff("y=Dg4(x)", "y=exp(x) - 2")
-// --> dibujar(g4, [0:0.1:4])
-// Vemos que Dg4(x) < 1 si x <= 1.1
-// Luego tambien vemos que, 0 <= x <= 1.1, 0 <= g4(x) <= 1.1
-
-
-// Ahora podemos  obtener el resultado con:
-// --> metodo_punto_fijo(g4, 0, 10^-4)
+// --> deff("y=g4(x)", "y= %e^x - 2 * x")
+// --> dibujar(g4, [0:0.1:2]);
+// Vemos que 0 <= x <= 1 => 0 <= g4(x) <= 1
+// Y como |g4'(x)| < 1 en [0, 1]
+// Obtenemos el resultado con:
+// --> metodo_punto_fijo(g4, .5, 10^-4)
 //  ans  =
-//    0.6190754
+//    0.6189904
 
-// Nos sirven todas. Podemos ver que  con g3, podemos calcular el punto 1.5118
-// ya que trabajamos con un intervalo en el cual, el punto 0.6190 no pertenece
+// Todas las funciones nos fueron útiles
+// En particular, g3 nos permitió encontrar el punto fijo cercano a 1.5
+// mientras que el resto nos permitieron entcontrar el cercano a 0.6
 
-// metodo_newton_multivariable :: SistEcua -> [Int] -> Float -> Int
-// Dado un sitema de ecuaciones F y un punto inicial x0,
-// calcula el valor de x talque F(x) = 0 con un error de e
-function v = metodo_newton_multivariable(F, x0, e, iter)
-  J = numderivative(F, x0)
-  i = 0
-  if (det(J) <> 0) then
-    // Tenemos que ver que la distancia de F(x0) sea lo mas cercano a e
-    while (norm(F(x0)) > e) && (i < iter) then
-      x0 = x0 - (inv(J) * F(x0))
-      J = numderivative(F, x0)
-      i = i + 1
+
+
+// Dado un sitema de ecuaciones F y un punto inicial x,
+// obtiene una solución aproximada al sistema F(v) = 0 con el método de newton multivariable
+// con una tolerancia de epsilon y un máximo iter de iteraciones
+function v = metodo_newton_multivariable(F, x, eps, iter)
+    for i = 1: iter
+        Jinv = inv(numderivative(F, x))
+        x = x - (Jinv * F(x))
+        if norm(F(x)) < eps then
+            v = x; return
+        end
     end
-    v = x0
-  else v = %nan
-  end
+    v = %nan
 endfunction
 
+
 // Ejercicio 9
-function y = h1(x)
+function y = F9(x)
   y(1) = 1 + x(1)^2 - x(2)^ 2 + exp(x(1)) * cos(x(2))
   y(2) = (2 * x(1) * x(2)) + (exp(x(1)) * sin(x(2)))
 endfunction
 
-// --> metodo_newton_multivariable(h, [-1,4]', 10^-4, 5)
+// --> metodo_newton_multivariable(F9, [-1,4]', 1e-8, 5)
 //  ans  =
-//  -0.293178
-//   1.1726344
+//   -0.2931627
+//    1.1726598
 
-// --> h(ans)
-// ans  =
-//   0.0000818
-//  -0.0000389
 
 // Ejercicio 10
-function y = h2(x)
+function y = F10(x)
   y(1) = x(1)^2 + (x(1) * x(2)^3) - 9
   y(2) = (3 * x(1)^2 * x(2)) - 4 - x(2)^3
 endfunction
 
-// --> metodo_newton_multivariable(h2, [1.2, 2.5]', 10^-4, 200)
+// a)
+// --> metodo_newton_multivariable(F10, [1.2, 2.5]', 1e-8, 100)
 //  ans  =
-//  1.3363554
-//  1.7542352
+//    1.3363554
+//    1.7542352
+// --> F10(ans)
+//  ans  =
+//   -1.776D-15
+//   -1.776D-15
 
-// --> h2(ans)
-// ans  =
-// -5.174D-08
-// -0.0000001
 
-// --> metodo_newton_multivariable(h2, [-2, 2.5]', 10^-4, 200)
+// b)
+// --> metodo_newton_multivariable(F10, [-2, 2.5]', 1e-8, 100)
 //  ans  =
 //   -0.9012662
 //   -2.0865876
+// --> F10(ans)
+//   ans  =
+//   7.726D-10
+//   1.821D-10
 
-// --> h2(ans)
+
+// c)
+// --> metodo_newton_multivariable(F10, [-1.2, -2.5]', 1e-8, 100)
 //  ans  =
-//    7.726D-10
-//    1.821D-10
+//   -0.9012662
+//   -2.0865876
+// --> F10(ans)
+//   ans  =
+//     1.776D-15
+//     3.553D-15
 
-// --> metodo_newton_multivariable(h2, [-1.2, -2.5]', 10^-4, 200)
+
+// d)
+// --> metodo_newton_multivariable(F10, [2, -2.5]', 1e-8, 100)
 //  ans  =
-//  -0.9012662
-//  -2.0865876
+//   -3.0016249
+//    0.148108 
+// --> F10(ans)
+//    ans  =
+//     -4.086D-14
+//      5.381D-13
+  
 
-// --> h2(ans)
-// ans  =
-//   1.092D-08
-//  -1.480D-08
-
-// --> metodo_newton_multivariable(h2, [-1.2, -2.5]', 10^-4, 200)
-//  ans  =
-//  -0.9012662
-//  -2.0865876
-
-// --> h2(ans)
-// ans  =
-//   1.092D-08
-//  -1.480D-08
-
-// minimo_maximo_locales :: SistEcua -> [Int] -> Float -> [[Int], Int]
-// Recibe la funcion derivada (a mano), un punto inicial y un error
-// Calcula los minimos/maximos locales y devuelve el tipo que es:
-// 0 : Silla
-// 1 : Minimo
-// 2 : Maximo
-function [v, tipo] = minimo_maximos_locales(DF, x0, e)
-  v = metodo_newton_multivariable(DF, x0, e, 300)
-  H = numderivative(DF, x0)
-  n = size(v, 1)
-  determinantes = zeros(n, 0)
-  for (i = 1 : n)
-      determinantes(i) = det(H(1:i, 1:i)) > 0
-  end
-
-  if (and(determinantes))
-      tipo = 1
-  else
-      i = 1
-      while (i <= n) then
-          determinantes(i) = ~ determinantes(i)
-          i = i + 2
-      end
-      if (and(determinantes))
-          tipo = 2
-      else
-          tipo = 0
-      end
-  end
-endfunction
 
 // Ejercicio 11
 function y = f(x)
@@ -373,20 +349,3 @@ endfunction
 //    0.5747748
 
 
-
-
-
-// 4
-// Usamos el Teorema 2 con g = cos, y obtenemos que existe una única solución de g(x) = x.
-// Por lo tanto, al aplicar reiteradas veces la función coseno obtenemos su punto fijo
-
-
-// 5
-// Usamos el Teorema 2
-// g (x) = 2 ^ (x - 1)
-// Buscamos que g' (x) < 1 => x < 1.53
-// Definimos a = -inf, b = 1.53
-// Corroboramos que si -inf <= x <= 1.53 => -inf <= g (x) <= 1.53
-// Por lo tanto, converge si partimos de un x < 1.53
-// Como la solución es única y sabemos que 1 es solución, entonces 1 es la única solución
-// Por lo tanto converge a 1
