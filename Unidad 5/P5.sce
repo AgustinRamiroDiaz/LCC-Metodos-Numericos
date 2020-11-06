@@ -236,20 +236,36 @@ function x = SOR(A, b, w, x, eps, maxIter)
 endfunction
 
 
+function x = SOR(A, b, w, x, eps, maxIter)
+    N = tril(A)
+    Ninv = inv(N)
+    NmA = N - A
+    for i = 1:maxIter
+        xNuevo = w * Ninv *(NmA * x + b) + (1 - w) * x
+        if norm(xNuevo - x) < eps 
+            x = xNuevo
+            // mostramos las iteraciones
+            disp (i)
+            return
+        end
+        x = xNuevo
+    end
+    x = %nan
+endfunction
+
 
 
 // --> A = [4 3 0; 3 4 -1; 0 -1 4];
-
 // --> b = [24 30 -24]';
 
 
 // a)
 
-// --> gauss_seidel(A, b, [0 0 0]', 1e-7, 1000)
-//    36.
+// --> gauss_seidel(A, b, [0 0 0]', 1e-8, 1000)
+//    41.
 //  ans  =
-//    3.0000001
-//    3.9999999
+//    3.
+//    4.
 //   -5.       
 
 
@@ -260,11 +276,11 @@ endfunction
 // --> rho = (max(abs(spec( TJ ))));
 // --> w = 2 / (1 + sqrt(1 - rho ^ 2 ));
 
-// --> SOR(A, b, w, [0 0 0]', 1e-7, 1000)
-//    16.
+// --> SOR(A, b, w, [0 0 0]', 1e-8, 1000)
+//    31.
 //  ans  =
 //    3.
 //    4.
 //   -5.
 
-// Notemos que tardó 16 iteraciones en vez de 36 con el normal
+// Notemos que tardó 31 iteraciones en vez de 41 con el normal
