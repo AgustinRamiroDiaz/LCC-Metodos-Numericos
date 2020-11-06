@@ -181,22 +181,56 @@ endfunction
 
 
 // Ejercicio 3 
-// TODO
+
 // A(i, i) = 2      para todo i
 // A(i, j) = -1     para i,j / |i-j| = 1
 // A(i, j) = 0      para el resto
 
 // Al estar aplicando el método de Gauss-Seidel,
 // La matriz N será
-[
-    2  0 0 ... 0
-    -1 2 0 ... 0
-    0 -1 2 ... 0
-    ............
-    0 ... 0 -1 2
-]
+// [
+//     2  0 0 ... 0
+//     -1 2 0 ... 0
+//     0 -1 2 ... 0
+//     ............
+//     0 ... 0 -1 2
+// ]
 
+// Y su inversa aplicando eliminacion gaussiana nos queda de la forma
+// [
+//     2^-1  0    0    ...   0
+//     2^-2  2^-1 0    ...   0
+//     2^-3  2^-2 2^-1 ...   0
+//     .........................
+//     2^-n 2^-(n-1)...2^-2  2^-1
+// ]
 
+// Por lo que (N^-1) * A queda
+// [
+//     1  2^-1    0       ...         0
+//     0  1-2^-2  2^-1    ...         0
+//     0  2^-3    1-2^-2  ...         0
+//     .........................
+//     0  2^-n    2^-(n-1) ...  2^-3  1 - 2^-2
+// ]
+
+// Y al final cuando se lo restamos a la identidad
+// nos queda I - (N^-1) * A:
+// [
+//     0  2^-1  0       ...         0
+//     0  2^-2  2^-1    ...         0
+//     0  2^-3  2^-2    ...         0
+//     .........................
+//     0  2^-n  2^-(n-1) ...  2^-3  2^-2
+// ]
+
+// Crea la matriz de iteración de A de tamaño nxn
+// para el método de Gauss-Seidel 
+function M = Ejercicio3(n)
+    A = diag(ones(1, n) * 2) + diag(ones(1, n-1) * -1, -1) + diag(ones(1, n-1) * -1, 1)
+    N = tril(A)
+    M = eye(n, n) - inv(N) * A
+endfunction
 
 
 // Ejercicio 4
