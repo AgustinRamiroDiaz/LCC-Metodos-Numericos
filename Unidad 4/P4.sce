@@ -551,9 +551,42 @@ endfunction
 
 
 
+
+
 // Ejercicio 9 
 
-// TODO
+
+// --> A = [1 2 -2 1; 4 5 -7 6; 5 25 -15 -3; 6 -12 -6 22];
+// --> b = [1 2 0 1]';
+
+
+// Reuelve el sistema Ax=b mediante el método de eliminación de Gauss
+function x = Ejercicio9(A, b)
+    [L, U, P] = factorizacionPALU(A)
+    y = resolverTriangularInferior(L, P*b)
+    x = resolverTriangularSuperior(U, y)
+endfunction
+
+// a)
+
+// --> Ejercicio9(A, b)
+//  ans  =
+//    9.8333333
+//   -6.1666667
+//   -5.5      
+//   -7.5  
+
+// b)
+// --> b = [2 2 1 0]';
+
+// --> Ejercicio9(A, b)
+//  ans  =
+//    19.5
+//   -17. 
+//   -18. 
+//   -19.5
+
+
 
 
 // Ejercicio 10

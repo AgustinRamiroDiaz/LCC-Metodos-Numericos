@@ -203,7 +203,7 @@ endfunction
 // ans  =
 //  Nan
 
-// TODO REVISAR
+// No converge con el método de newton
 
 
 

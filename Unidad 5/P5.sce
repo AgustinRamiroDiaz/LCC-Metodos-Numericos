@@ -58,7 +58,7 @@ endfunction
 // Entonces redefinimos el sistema como
 
 
-// --> A = [1 -1 1; 0 2 4; 1 -1 2];
+// --> A = [1 -1 -1; 0 2 4; 1 -1 2];
 // --> b = [.375 0 0]';
 
 // A no es diagonal dominante por lo cual no podemos aplicar T3 ni T4
@@ -69,7 +69,7 @@ endfunction
 // --> m = eye(A) - inv(N) * A;
 // --> rho = (max(abs(spec( m ))))
 //  rho  =
-//    1.0942711
+//    1.3440402
 // Que es mayor que 1, por lo tanto no podemos asegurar su convergencia
 
 // Gauss-Seidel:
@@ -78,7 +78,7 @@ endfunction
 // --> m = eye(A) - inv(N) * A;
 // --> rho = (max(abs(spec( m ))))
 //  rho  =
-//    1.280776
+//    2.
 // Que es mayor que 1, por lo tanto no podemos asegurar su convergencia
 
 
@@ -129,8 +129,15 @@ endfunction
 // --> A = [1 -1 1; 0 2 4; 1 -1 2];
 // --> b = [.375 0 0]';
 
-// TODO
+// --> jacobi(A, b, zeros(3, 1), 1e-2, 1000)
+//  ans  =
+//    Nan
 
+// --> gauss_seidel(A, b, zeros(3, 1), 1e-2, 1000)
+//  ans  =
+//    Nan
+
+// Vemos que no convergen comenzando desde x0 = 0
 
 
 // --> A = [1 -1 0; -1 2 -1; 0 -1 1.1];
