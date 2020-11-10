@@ -336,6 +336,9 @@ endfunction
 
 
 // Ejercicio 6
+
+// Dada una matriz diagonal A y un vector b
+// resuelve el sistema Ax=b 
 function x = resolverDiagonal(A, b)
     [nA,mA] = size(A) 
     [nb,mb] = size(b)
@@ -348,14 +351,15 @@ function x = resolverDiagonal(A, b)
         abort;
     end;
 
-    n = nA
-
-    for k = 1:n
+    for k = 1:nA
         x(k) = b(k) / A(k, k)
     end
 
 endfunction
 
+// Dada una matriz tridiagonal A y un vector b
+// resuelve el sistema Ax=b con el método de eliminación
+// de gauss, contando las operaciones en cop
 function [x, cop] = resolverTridiagonal(A, b)
     [nA,mA] = size(A) 
     [nb,mb] = size(b)
@@ -395,6 +399,7 @@ function [x, cop] = resolverTridiagonal(A, b)
     end;
 
     x = resolverDiagonal(A, b)
+    cop = cop + n
 endfunction
 
 // --> A = [1 2 0 0 0; 3 4 5 0 0; 0 6 7 8 0; 0 0 9 10 11; 0 0 0 12 13];
@@ -407,7 +412,7 @@ endfunction
 //    0.0673469
 //    0.322449 
 //  cop  = 
-//    32.
+//    37.
 
 
 
