@@ -193,18 +193,16 @@ function output = longitudDeOnda(d)
 endfunction
 
 // a)
-// --> metodo_punto_fijo(longitudDeOnda, 1, 1e-1)
-//  ans  =
+// --> v = metodo_punto_fijo(longitudDeOnda, 1, 1e-1)
+//  v  =
 //    0.2835513
 
 
 // b)
-// --> metodo_newton(longitudDeOnda, ans, 1e-4, 100)
-// ans  =
-//  Nan
-
-// No converge con el método de newton
-
+// --> deff('y = ldoNewton(x)', 'y = longitudDeOnda(x) - x')
+// --> metodo_newton(ldoNewton, v, 1e-4, 10000)
+//  ans  =
+//    0.2249735
 
 
 
