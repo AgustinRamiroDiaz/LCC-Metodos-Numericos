@@ -29,8 +29,19 @@ endfunction
 // con un máximo de iteraciones maxIter
 // Además muestra la cantidad de iteraciones realizadas si se llegó a la condición de parada
 function x = jacobi(A, b, x, eps, maxIter)
-    N = diag(diag(A))
-    x = metodoIterativoVectorial(N, A, b, x, eps, maxIter)
+    n = size(A, 1)
+    for iter = 1:maxIter // Iteramos
+        for i = 1:n      // Aplicamos el algoritmo por filas
+            xNuevo(i) = 1/A(i, i) * (b(i) - A(i, :) * x + A(i, i) * x(i))
+        end
+        if norm(xNuevo - x) < eps // Criterio de corte
+            x = xNuevo
+            disp (iter) // mostramos las iteraciones
+            return
+        end
+        x = xNuevo  // Reasignamos
+    end
+    x = %nan
 endfunction
 
 
@@ -39,8 +50,24 @@ endfunction
 // con un máximo de iteraciones maxIter
 // Además muestra la cantidad de iteraciones realizadas si se llegó a la condición de parada
 function x = gauss_seidel(A, b, x, eps, maxIter)
-    N = tril(A)
-    x = metodoIterativoVectorial(N, A, b, x, eps, maxIter)
+    n = size(A, 1)
+    xNuevo = x
+    for iter = 1:maxIter // Iteramos
+        // Aplicamos el algoritmo por filas
+        xNuevo(1) = 1/A(1, 1) * (b(1) - A(1, 2:n) * x(2:n)) // Primera fila
+        for i = 2:n-1    // Filas 2 a n
+            xNuevo(i) = 1/A(i, i) * (b(i) - A(i, 1:i-1) * xNuevo(1:i-1) - A(i, i+1:n) * x(i+1:n))
+        end
+        xNuevo(n) = 1/A(n, n) * (b(n) - A(n, 1:n-1) * xNuevo(1:n-1)) // Última fila
+
+        if norm(xNuevo - x) < eps // Criterio de corte
+            x = xNuevo
+            disp (iter) // mostramos las iteraciones
+            return
+        end
+        x = xNuevo  // Reasignamos
+    end
+    x = %nan
 endfunction
 
 
@@ -365,25 +392,6 @@ function x = SOR(A, b, w, x, eps, maxIter)
         x = xNuevo
     end
 endfunction
-
-
-function x = SOR(A, b, w, x, eps, maxIter)
-    N = tril(A)
-    Ninv = inv(N)
-    NmA = N - A
-    for i = 1:maxIter
-        xNuevo = w * Ninv *(NmA * x + b) + (1 - w) * x
-        if norm(xNuevo - x) < eps 
-            x = xNuevo
-            // mostramos las iteraciones
-            disp (i)
-            return
-        end
-        x = xNuevo
-    end
-    x = %nan
-endfunction
-
 
 
 // --> A = [4 3 0; 3 4 -1; 0 -1 4];

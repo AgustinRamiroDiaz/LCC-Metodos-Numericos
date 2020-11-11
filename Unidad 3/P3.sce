@@ -131,9 +131,9 @@ endfunction
 // Ejercicio 5
 // Usamos el Teorema 2
 // g (x) = 2 ^ (x - 1)
-// Buscamos que g' (x) < 1 => x < 1.53
-// Definimos a = -inf, b = 1.53
-// Corroboramos que si -inf <= x <= 1.53 => -inf <= g (x) <= 1.53
+// Buscamos que |g' (x)| = |ln(2) * 2^(x-1)| < 1 => x < 1.53
+// Definimos b = 1.53 y a <= 0
+// Corroboramos que si a <= x <= 1.53 => a <= g (x) <= 1.53
 // Por lo tanto, converge si partimos de un x < 1.53
 // Como la solución es única y sabemos que 1 es solución, entonces 1 es la única solución
 // Por lo tanto converge a 1
