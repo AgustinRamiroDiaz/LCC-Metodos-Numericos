@@ -422,4 +422,4 @@ endfunction
 //    4.
 //   -5.
 
-// Notemos que tardó 31 iteraciones en vez de 41 con el normal
+// Notemos que tardó 17 iteraciones en vez de 41 con el normal
