@@ -700,7 +700,7 @@ function [U,ind] = cholesky(A)
     end
     ind = 1
     
-    endfunction
+endfunction
 
 // b)
 

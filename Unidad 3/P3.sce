@@ -33,7 +33,7 @@ function v = metodo_biseccion(f, a, b, eps)
 
     v = c
   end
-end
+endfunction
 
 // Ejercicio 2
 
