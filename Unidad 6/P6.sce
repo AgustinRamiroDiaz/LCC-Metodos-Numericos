@@ -41,32 +41,32 @@
 // Ejercicio 2
 // TODO
 
-// Ejercicio 3
-// i)
+// // Ejercicio 3
+// // i)
 
-k = 0:10
-eps = .1*k
+// k = 0:10
+// eps = .1*k
 
-raices = zeros(3, 3)
-for i=k+1
-    disp('Epsilon: ', eps(i))
-    A = [1 -1 0; -2 4 -2; 0 -1 1] + [0 0 0; 0 0 0; 0 0 eps(i)];
-    // disp('Matriz A: ', A)
-    p = poly(A, 'x')
-    disp('Polinomio Característico: ', p)
-    raices(i, :) = roots(p)
-    disp('Raices: ', raices(i, :))
-end
+// raices = zeros(3, 3)
+// for i=k+1
+//     disp('Epsilon: ', eps(i))
+//     A = [1 -1 0; -2 4 -2; 0 -1 1] + [0 0 0; 0 0 0; 0 0 eps(i)];
+//     // disp('Matriz A: ', A)
+//     p = poly(A, 'x')
+//     disp('Polinomio Característico: ', p)
+//     raices(i, :) = roots(p)
+//     disp('Raices: ', raices(i, :))
+// end
 
-// ii)
-av = zeros(3, 3)
-for i=k+1
-    disp('Epsilon: ', eps(i))
-    A = [1 -1 0; -2 4 -2; 0 -1 1] + [0 0 0; 0 0 0; 0 0 eps(i)];
-    // disp('Matriz A: ', A)
-    av(i, :) = spec(A)
-    disp('Autovalores de A: ', av(i, :))
-end
+// // ii)
+// av = zeros(3, 3)
+// for i=k+1
+//     disp('Epsilon: ', eps(i))
+//     A = [1 -1 0; -2 4 -2; 0 -1 1] + [0 0 0; 0 0 0; 0 0 eps(i)];
+//     // disp('Matriz A: ', A)
+//     av(i, :) = spec(A)
+//     disp('Autovalores de A: ', av(i, :))
+// end
 // TODO REVISAR, DAN DISTINTO LOS AUTOVALORES Y LAS RAICES
 
 // Ejercicio 4
@@ -107,3 +107,21 @@ function CircGersValor(A)
     autov = spec(A)
     plot2d(real(autov), imag(autov), -1)
 endfunction
+
+// Ejercicio 5
+// a)
+
+// TODO CORREGIR Y TERMINAR
+
+function lambda = metodoDeLaPotencia(A, z, eps, maxIter)
+    for i=1:maxIter
+        w = A * z
+        z = w / max(abs(w))
+    end
+    lambda = w(1) / z(1)
+endfunction
+
+A1 = [6 4 4 1;
+      4 6 1 4;
+      4 1 6 4;
+      1 4 4 6]
