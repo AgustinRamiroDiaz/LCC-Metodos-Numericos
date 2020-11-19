@@ -113,15 +113,33 @@ endfunction
 
 // TODO CORREGIR Y TERMINAR
 
-function lambda = metodoDeLaPotencia(A, z, eps, maxIter)
+function [lambda, z, i] = metodoDeLaPotencia(A, z, eps, maxIter)
     for i=1:maxIter
         w = A * z
-        z = w / max(abs(w))
+        znuevo = w / max(abs(w))
+        if norm(znuevo - z) < eps
+            k = find(w, 1)
+            w = A*z
+            lambda = w(k) / z(k)
+            return
+        end
+        z = znuevo
     end
-    lambda = w(1) / z(1)
+    k = find(w, 1)
+    w = A*z
+    lambda = w(k) / z(k)
 endfunction
 
 A1 = [6 4 4 1;
       4 6 1 4;
       4 1 6 4;
       1 4 4 6]
+
+metodoDeLaPotencia(A1, rand(4, 1), 1e-12, 100)
+
+A2 = [12 1 3 4;
+      1 -2 1 5;
+      3 1 6 -2;
+      4 5 -2 -1]
+
+metodoDeLaPotencia(A2, rand(4, 1), 1e-12, 100)
