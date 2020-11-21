@@ -112,7 +112,6 @@ endfunction
 // a)
 
 // TODO CORREGIR Y TERMINAR
-
 function [lambda, z, i] = metodoDeLaPotencia(A, z, eps, maxIter)
     for i=1:maxIter
         w = A * z
