@@ -22,11 +22,11 @@ function dd = diferenciasDivididas(x, y)
     if n == 1
         dd = y(1)
     else
-        dd = (diferenciasDivididas(x(2:n), y(2:n)) - diferenciasDivididas(x(1:n-1), y(1:n-1))) / x(n) - x(1)
+        dd = (diferenciasDivididas(x(2:n), y(2:n)) - diferenciasDivididas(x(1:n-1), y(1:n-1))) / (x(n) - x(1))
     end
 endfunction
 
-// TODO REVISAR, NO DA IGUAL QUE LAGRANGE
+
 function p = interpolacionNewton(x, y)
     [m,n] = size(x)
     // Polinomio n
@@ -40,23 +40,57 @@ endfunction
 
 
 
-// Ejercicio 1
-x = [0 .2 .4 .6];
-y = [1 1.2214 1.4918 1.8221];
-// a)
-// Lagrange:
-p = interpolacionLagrange(x, y)
 
-// disp(horner(p, 1/3))
+
+// Ejercicio 1
+// a)
+
+// // Cúbico:
+// x = [0 .2 .4 .6];
+// y = [1 1.2214 1.4918 1.8221];
+// disp("Cúbicos")
+// // Lagrange:
+// p = interpolacionLagrange(x, y)
+// disp("Lagrange", horner(p, 1/3))
 // 1.3955494
 
-// Newton:
-// TODO
+// // Newton:
+// p = interpolacionNewton(x, y)
+// disp("Newton", horner(p, 1/3))
+// 1.3955494
+
+// // Lineal:
+// x = [.2 .4]
+// y = [1.2214 1.4918]
+// disp("Lineal")
+// // Lagrange:
+// p = interpolacionLagrange(x, y)
+// disp("Lagrange", horner(p, 1/3))
+// 1.4016667
+
+// // Newton:
+// p = interpolacionNewton(x, y)
+// disp("Newton", horner(p, 1/3))
+// 1.4016667
+
+
 
 // b)
+x = [0 .2 .4 .6];
+y = [1 1.2214 1.4918 1.8221];
+p = interpolacionLagrange(x, y)
+errorExacto = horner(p, 1/3)-1.395612425
+disp("Error cúbico: ", abs(errorExacto))
 
-errorExacto = horner(p, 1/3)-exp(1/3)
+x = [.2 .4];
+y = [1.2214 1.4918];
+p = interpolacionNewton(x, y)
+errorExacto = horner(p, 1/3)-1.395612425
+disp("Error lineal: ", abs(errorExacto))
+// TODO COTAS DE ERROR
 
+
+// Ejercicio 2
 
 
 // TODO: el error será la resta absoluta clásica, o será ɛ(x) = Ax-b
@@ -96,12 +130,16 @@ p3 = minimosCuadrados(x, y, 3)
 x = [4      4.2     4.5     4.7     5.1     5.5     5.9     6.3     6.8     7.1]
 y = [102.56 113.18  130.11  142.05  167.53  195.14  224.87  256.73  299.5   326.72]
 
-// p1 = minimosCuadrados(x, y, 1)
-// p2 = minimosCuadrados(x, y, 2)
-// p3 = minimosCuadrados(x, y, 3)
+
+
+p1 = minimosCuadrados(x, y, 1)
+p2 = minimosCuadrados(x, y, 2)
+p3 = minimosCuadrados(x, y, 3)
 
 // TODO REVISAR DAN MUY MAL
 // disp(norm(horner(p1, x) - y))
+// plot(x, y)
+// plot(x, horner(p2, x))
 
 // disp(norm(horner(p2, x) - y))
 
@@ -156,11 +194,13 @@ function nc = nodosChebyshev(n, a, b)
     nc = ((b + a) + r * (b - a)) / 2
 endfunction
 
-x = nodosChebyshev(4, 0, %pi/2)
+a = 0
+b = %pi/4
+
+x = nodosChebyshev(4, a, b)
 y = cos(x)
 
 p = interpolacionLagrange(x, y)
 
 // t=[a:.1:b]
-// plot(t, horner(p, t))
-// plot(t, cos(t))
+// plot(t, horner(p, t) - cos(t))
