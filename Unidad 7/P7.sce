@@ -107,6 +107,37 @@ function pol = minimosCuadrados(x, y, grado)
     pol = poly(a, 'x', 'c')
 endfunction
 
+// Ejercicio 5
+P_0,1 (x) = 2x + 1
+P_0,2 (x) = x + 1
+P_1,2,3 (2.5) = 3
+
+P_0,1 (x) = L_0(x)y_0 + L_1(x)y_1
+P_0,1 (x) = (1-x) * y_0 + -x * y_1
+P_0,1 (x) =  y0 - x * y0 + -x * y_1
+P_0,1 (x) =  y0 - x * (y0 + y_1)    *1*
+
+P_0,1 (x) = 2x + 1                  *2*
+
+de *1* y *2* concluimos
+y0 = 1
+y1 = -3
+
+P_0,2 (x) = L_0(x)y_0 + L_2(x)y_2
+P_0,2 (x) = (1-x) * y_0 + x/2 * y_2
+P_0,2 (x) = y0 - x * y0 + x * y_2 / 2
+P_0,2 (x) = y0 - x * y0 + x * y_2 / 2
+P_0,2 (x) = y0 + x * (-y0 + y_2 / 2)
+P_0,2 (x) = 1 + x * (-1 + y_2 / 2)
+
+P_0,2 (x) = x + 1
+
+Por lo tanto
+y2 = 2
+
+P_1,2,3 (2.5) = L1(2.5) * y1 + L2(2.5) * y2 + L3(2.5) * y3
+P_1,2,3 (2.5) = L1(2.5) * y1 + L2(2.5) * y2 + L3(2.5) * y3
+
 
 // Ejercicio 7
 x = [0  .15     .31     .5      .6      .75];
