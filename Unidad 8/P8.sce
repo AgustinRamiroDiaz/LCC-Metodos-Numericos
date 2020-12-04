@@ -208,7 +208,7 @@ deff('y=f(x, y)', 'y=sin(x+y)')
 deff('y=c(x)', 'y=0')
 deff('y=d(x)', 'y=1')
 
-r = integralBidimensionalTrapecio(f, 0, 2, c, d, 10)
+r = integralBidimensionalTrapecio(f, 0, 2, c, d, 2)
 
 
 

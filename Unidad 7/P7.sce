@@ -103,9 +103,77 @@ disp("Error cúbico: ", errorExacto)
 
 
 // Ejercicio 2
+// Por el Teorema 3 (Error de la Interpolación Polinómica)
+// sabemos que para x0, x1,..., xn distintos en [a, b],
+// para todo x en [a, b] existe ξ en (a, b) tal que
+
+// f(x) - p(x) = (x - x0)(x - x1)...(x-xn) / (n+1)! * f^(n+1) (ξ) 
+
+// donde p(x) es el polinomio interpolante de f para los puntos xi
+
+// Sabiendo que f es un polinomio de orden menor o igual que n, 
+// la derivada f^(n+1) (x) = 0 para todo x en [a, b]
+
+// Por lo tanto f(x) = p(x) para todo x en [a, b]
+
+// Dado que este razonamiento vale para cualquier conjunto [a, b]
+// que contenga a los xi, vale para todo x en R
+
+// Por lo tanto f(x) = p(x) para todo x
+
+// Ejercicio 3
+// Por el Teorema 3 (Error de la Interpolación Polinómica)
+// sabemos que para x0, x1 distintos en [0, 1],
+// existe ξ en (0, 1) tal que
+// f(x) - p(x) = (x - x0)(x - x1) / 2! * f^(2) (ξ) 
+// = (x - x0)(x - x1) / 2 * f^(2) (ξ)
+//     como la derivada segunda de J0 es creciente en [0, 1]
+//     J0'(x)= 1 / %pi * 
+// <= (x - x0)(x - x1) / 2 * f^(2) (1)
+// = (x - x0)(x - x1) / 2 * -13/40
+// = (x - x0)(x - x1) * -13 / 80
+//     y queremos
+// (x - x0)(x - x1) * -13 / 80 < .5e-6
+// (x - x0)(x - x1) * > 3.08e-6
+
+// WTF TODO
 
 
-// TODO: el error será la resta absoluta clásica, o será ɛ(x) = Ax-b
+// Ejercicio 4
+// TODO PARECIDO ANTERIOR
+
+// Ejercicio 6
+// p(x) = 
+//     f[x0] +                      
+//     f[x0, x1] * (x - x0) + 
+//     f[x0, x1, x2] * (x-x0) * (x-x1) +...+
+//     f[x0,...,xn-1] * (x-x0) *...* (x-xn)
+
+// x0 = -1
+// x1 = 1
+// x2 = 2
+// x3 = 4
+
+// p3(x) = 
+//     f[x0] + 
+//     f[x0, x1] * (x - x0) + 
+//     f[x0, x1, x2] * (x-x0) * (x-x1) +
+//     f[x0, x1, x2, x3] * (x-x0) * (x-x1) * (x-x2)
+// =
+//     2 + 
+//     1 * (x + 1) +
+//     -2 * (x+1) * (x-1) +
+//     2 * (x+1) * (x-1) * (x-2)
+// =
+//     3 + x + -2 * (x+1) * (x-1) + 2 * (x+1) * (x-1) * (x-2)
+
+// p3(0) = 3 + -2 * 1 * -1 + 2 * 1 * -1 * -2
+//       = 3 + 2 + 2 * 2
+//       = 11
+
+// TODO C
+
+
 function pol = minimosCuadrados(x, y, grado)
     [m, n] = size(x)
     // Definimos A tomando ɸ_k como x^k  
