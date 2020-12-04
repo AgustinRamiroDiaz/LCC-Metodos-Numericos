@@ -45,7 +45,7 @@ endfunction
 // Ejercicio 1
 // a)
 
-// // Cúbico:
+// Cúbico:
 // x = [0 .2 .4 .6];
 // y = [1 1.2214 1.4918 1.8221];
 // disp("Cúbicos")
@@ -54,13 +54,20 @@ endfunction
 // disp("Lagrange", horner(p, 1/3))
 // 1.3955494
 
+
 // // Newton:
 // p = interpolacionNewton(x, y)
 // disp("Newton", horner(p, 1/3))
 // 1.3955494
 
+// perror = poly(x, 'x', 'roots') / factorial(4)
+// // sabiendo que la derivada de e^x es e^x
+// // y que e^x es creciente
+// cotaErrorCubico = horner(perror, 1/3) * exp(.6)
+// disp('Cota error cúbico: ' + string(cotaErrorCubico))
+
 // // Lineal:
-// x = [.2 .4]
+x = [.2 .4]
 // y = [1.2214 1.4918]
 // disp("Lineal")
 // // Lagrange:
@@ -73,21 +80,26 @@ endfunction
 // disp("Newton", horner(p, 1/3))
 // 1.4016667
 
+// perror = poly(x, 'x', 'roots') / 2
+// // sabiendo que la derivada de e^x es e^x
+// // y que e^x es creciente
+// cotaErrorLineal = horner(perror, 1/3) * exp(.4)
+// disp('Cota error lineal: ' + string(cotaErrorLineal))
 
 
-// b)
+// // b)
 x = [0 .2 .4 .6];
 y = [1 1.2214 1.4918 1.8221];
 p = interpolacionLagrange(x, y)
 errorExacto = horner(p, 1/3)-1.395612425
-disp("Error cúbico: ", abs(errorExacto))
+disp("Error cúbico: ", errorExacto)
 
-x = [.2 .4];
-y = [1.2214 1.4918];
-p = interpolacionNewton(x, y)
-errorExacto = horner(p, 1/3)-1.395612425
-disp("Error lineal: ", abs(errorExacto))
-// TODO COTAS DE ERROR
+// x = [.2 .4];
+// y = [1.2214 1.4918];
+// p = interpolacionNewton(x, y)
+// errorExacto = horner(p, 1/3)-1.395612425
+// disp("Error lineal: ", errorExacto)
+// // TODO COTAS DE ERROR
 
 
 // Ejercicio 2
@@ -108,44 +120,50 @@ function pol = minimosCuadrados(x, y, grado)
 endfunction
 
 // Ejercicio 5
-P_0,1 (x) = 2x + 1
-P_0,2 (x) = x + 1
-P_1,2,3 (2.5) = 3
+// P_0,1 (x) = 2x + 1
+// P_0,2 (x) = x + 1
+// P_1,2,3 (2.5) = 3
 
-P_0,1 (x) = L_0(x)y_0 + L_1(x)y_1
-P_0,1 (x) = (1-x) * y_0 + -x * y_1
-P_0,1 (x) =  y0 - x * y0 + -x * y_1
-P_0,1 (x) =  y0 - x * (y0 + y_1)    *1*
+// P_0,1 (x) = L_0(x)y_0 + L_1(x)y_1
+// P_0,1 (x) = (x-1)/(0-1) * y_0 + L_1(x)y_1
+// P_0,1 (x) = (x-1)/(-1) * y_0 + L_1(x)y_1
+// P_0,1 (x) = -(x-1) * y_0 + (x-0)/(1-0) * y_1
+// P_0,1 (x) = (1-x) * y_0 + x * y_1
+// P_0,1 (x) =  y0 - x * y0 + x * y_1
+// P_0,1 (x) =  y0 + x * (-y0 + y_1)    *1*
 
-P_0,1 (x) = 2x + 1                  *2*
+// P_0,1 (x) = 2x + 1                  *2*
 
-de *1* y *2* concluimos
+// de *1* y *2* concluimos
 y0 = 1
-y1 = -3
+y1 = 3
 
-P_0,2 (x) = L_0(x)y_0 + L_2(x)y_2
-P_0,2 (x) = (1-x) * y_0 + x/2 * y_2
-P_0,2 (x) = y0 - x * y0 + x * y_2 / 2
-P_0,2 (x) = y0 - x * y0 + x * y_2 / 2
-P_0,2 (x) = y0 + x * (-y0 + y_2 / 2)
-P_0,2 (x) = 1 + x * (-1 + y_2 / 2)
+// P_0,2 (x) = L_0(x)y_0 + L_2(x)y_2
+// P_0,2 (x) = (x-2) / (0-2) * y_0 + x/2 * y_2
+// P_0,2 (x) = (x-2) / (-2) * y_0 + x/2 * y_2
+// P_0,2 (x) = (1 - x/2) * y_0 + x/2 * y_2
+// P_0,2 (x) = y_0 - x/2 * y0 + x/2 * y_2
+// P_0,2 (x) = y_0 + x * (-y0 + y2) / 2
 
-P_0,2 (x) = x + 1
+// P_0,2 (x) = x + 1
 
-Por lo tanto
-y2 = 2
+// Por lo tanto
+y2 = 3
 
-P_1,2,3 (2.5) = L1(2.5) * y1 + L2(2.5) * y2 + L3(2.5) * y3
-P_1,2,3 (2.5) = L1(2.5) * -3 + L2(2.5) * 2 + L3(2.5) * y3
-P_1,2,3 (2.5) = (2.5 - 2) * (2.5 - 3) / (1 - 2) / (1 - 3) * -3 + L2(2.5) * 2 + L3(2.5) * y3
-P_1,2,3 (2.5) = 
-    (2.5 - 2) * (2.5 - 3) / (1 - 2) / (1 - 3) * -3 + 
-    (2.5 - 1) * (2.5 - 3) / (2 - 1) / (2 - 3) * 2 + 
-    (2.5 - 1) * (2.5 - 2) / (3 - 1) / (3 - 2) * y3
-P_1,2,3 (2.5) = 3/8 + 3/2 + 3/8 * y3
-3 = 3/8 + 3/2 + 3/8 * y3
-1.125 = 3/8 * y3
+// P_1,2,3 (2.5) = L1(2.5) * y1 + L2(2.5) * y2 + L3(2.5) * y3
+// P_1,2,3 (2.5) = L1(2.5) * 3 + L2(2.5) * 3 + L3(2.5) * y3
+// P_1,2,3 (2.5) = (2.5 - 2) * (2.5 - 3) / (1 - 2) / (1 - 3) * 3 + L2(2.5) * 3 + L3(2.5) * y3
+// P_1,2,3 (2.5) = 
+//     (2.5 - 2) * (2.5 - 3) / (1 - 2) / (1 - 3) * 3 + 
+//     (2.5 - 1) * (2.5 - 3) / (2 - 1) / (2 - 3) * 3 + 
+//     (2.5 - 1) * (2.5 - 2) / (3 - 1) / (3 - 2) * y3
+// P_1,2,3 (2.5) = -3/8 + 9/4 + 3/8 * y3
+// 3 = 1.875 + 3/8 * y3
+// 1.125= 3/8 * y3
 y3 = 3
+
+horner(interpolacionLagrange([0, 1, 2, 3], [y0, y1, y2, y3]), 2.5)
+2.8750000
 
 
 // Ejercicio 7
@@ -191,18 +209,25 @@ p3 = minimosCuadrados(x, y, 3)
 
 deff('y = f(x)', 'y = 1 / 1 + x^2') 
 
-x = [-5:.1:5]
-y = f(x)
 
-// TODO REVISAR ZOOM
-// xgrid()
-// errores = zeros(7, length(x))
+// TODO ES CON POLINOMIO DE INTERPOLACION
+//xgrid()
 // for n=2:2:14
-//     p = minimosCuadrados(x, y, n)
-//     errores(n/2, :) = y - horner(p, x)
-// end
-// plot(x, errores)
+//     x = linspace(-5, 5, n)'
+//     y = f(x)
+//     p = interpolacionLagrange(x, y)
 
+//     t = -5:.01:5
+//     plot(t, abs (f(t) - horner(p, t)))
+// end
+
+// Los errores tienden a aumentar a medida que 
+// nos alejamos del 0
+
+// Vemos que a medida que aumenta el n
+// obtenemos errores mayores
+
+// Parece ser el fenómeno de Runge
 
 
 function [p, r] = chebyshev(n)

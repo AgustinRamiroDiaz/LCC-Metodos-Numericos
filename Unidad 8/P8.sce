@@ -159,36 +159,101 @@ a = 0
 b = 1.5
 n = 10
 
-// a)
-t = metodoCompuestoTrapecio(f, a, b, n)
-disp("Trapecio: " + string(t))
+// // a)
+// t = metodoCompuestoTrapecio(f, a, b, n)
+// disp("Trapecio: " + string(t))
 
-// b)
-s = metodoCompuestoSimpson(f, a, b, n)
-disp("Simpson: " + string(s))
+// // b)
+// s = metodoCompuestoSimpson(f, a, b, n)
+// disp("Simpson: " + string(s))
 
-// c)
-I = .9262907
+// // c)
+// I = .9262907
 
-disp("Error absoluto Trapecio: " + string(abs(I - t)))
-disp("Error relativo Trapecio: " + string(abs((I - t) / I)))
+// disp("Error absoluto Trapecio: " + string(abs(I - t)))
+// disp("Error relativo Trapecio: " + string(abs((I - t) / I)))
 
-disp("Error absoluto Simpson: " + string(abs(I - s)))
-disp("Error relativo Simpson: " + string(abs((I - s) / I)))
+// disp("Error absoluto Simpson: " + string(abs(I - s)))
+// disp("Error relativo Simpson: " + string(abs((I - s) / I)))
 
 
 
 // Ejercicio 5
 
+function i = GTrapecio(f, c, d, x, n)
+    a = c(x)
+    b = d(x)
+
+    h = (b - a) / n
+    Y = a+h:h:b-h
+    i = (f(x, a) + f(x, b)) / 2 
+    for y=Y
+        i = i + f(x, y)
+    end
+    i = i * h
+endfunction
+
+function I = integralBidimensionalTrapecio(f, a, b, c, d, n)
+    h = (b - a) / n
+    X = a+h:h:b-h
+    I = (GTrapecio(f, c, d, a, n) + GTrapecio(f, c, d, b, n)) / 2 
+    for x=X
+        I = I + GTrapecio(f, c, d, x, n)
+    end
+    I = I * h
+endfunction
+
+
+deff('y=f(x, y)', 'y=sin(x+y)')
+deff('y=c(x)', 'y=0')
+deff('y=d(x)', 'y=1')
+
+r = integralBidimensionalTrapecio(f, 0, 2, c, d, 10)
 
 
 
+// Ejercicio 6
+function i = GSimpson(f, c, d, x, n)
+    a = c(x)
+    b = d(x)
+
+    h = (b - a) / n
+    yimpares = a+h:2*h:b-h
+    ypares = a+2*h:2*h:b-2*h
+    i = f(x, a) + f(x, b)
+    for y=yimpares
+        i = i + 4 * f(x, y)
+    end
+    for y=ypares
+        i = i + 2 * f(x, y)
+    end
+    i = i * h / 3
+endfunction
+
+function I = integralBidimensionalSimpson(f, a, b, c, d, n)
+    h = (b - a) / n
+    ximpares = a+h:2*h:b-h
+    xpares = a+2*h:2*h:b-2*h
+    I = GSimpson(f, c, d, a, n) + GSimpson(f, c, d, b, n) 
+    for x=ximpares
+        I = I + 4 * GSimpson(f, c, d, x, n)
+    end
+    for x=xpares
+        I = I + 2 * GSimpson(f, c, d, x, n)
+    end
+    I = I * h / 3
+endfunction
 
 
+deff('y=f(x, y)', 'y=1')
+deff('y=c(x)', 'y=-(x * (2 - x))^.5')
+deff('y=d(x)', 'y=(x * (2 - x))^.5')
+
+deff('y=c(x)', 'y=-sin(acos(x-1))')
+deff('y=d(x)', 'y=sin(acos(x-1))')
 
 
+t = integralBidimensionalTrapecio(f, 0, 2, c, d, 100)
+s = integralBidimensionalSimpson(f, 0, 2, c, d, 100)
 
-
-
-
-
+// TODO OTROS MÉTODOS
