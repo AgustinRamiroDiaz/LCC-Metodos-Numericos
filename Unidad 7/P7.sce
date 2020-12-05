@@ -7,7 +7,7 @@ function y = Lk(x,k)
     y = p / pk
 endfunction
 
-// TODO: SE PUEDE OPTIMIZAR CALCULANDO LK ADENTRO 
+
 function p = interpolacionLagrange(x, y)
     [m,n] = size(x)
     p = 0
@@ -88,11 +88,11 @@ x = [.2 .4]
 
 
 // // b)
-x = [0 .2 .4 .6];
-y = [1 1.2214 1.4918 1.8221];
-p = interpolacionLagrange(x, y)
-errorExacto = horner(p, 1/3)-1.395612425
-disp("Error cúbico: ", errorExacto)
+// x = [0 .2 .4 .6];
+// y = [1 1.2214 1.4918 1.8221];
+// p = interpolacionLagrange(x, y)
+// errorExacto = horner(p, 1/3)-1.395612425
+// disp("Error cúbico: ", errorExacto)
 
 // x = [.2 .4];
 // y = [1.2214 1.4918];
@@ -171,7 +171,15 @@ disp("Error cúbico: ", errorExacto)
 //       = 3 + 2 + 2 * 2
 //       = 11
 
-// TODO C
+// c)
+// f(x) - p3(x) = (x - x0)(x - x1)...(x-xn) / (n+1)! * f^(n+1) (ξ) 
+// f(0) - p(0) = (0 - x0)(0 - x1)(0 - x2)(0 - x3) / 4! * f^(4) (ξ) 
+// f(0) - p(0) = (-x0)(-x1)(-x2)(-x3) / 24 * f^(4) (ξ) 
+// f(0) - p(0) = x0 * x1 * x2 * x3 / 24 * f^(4) (ξ) 
+// f(0) - p(0) = -1 * 1 * 2 * 4 / 24 * f^(4) (ξ) 
+// f(0) - p(0) = -1 / 3 * f^(4) (ξ) 
+// |f(0) - p(0)| = 1 / 3 * |f^(4) (ξ)| <= 1 / 3 * 33.6 
+// |f(0) - p(0)| <= 11.2 
 
 
 function pol = minimosCuadrados(x, y, grado)
@@ -257,21 +265,29 @@ x = [4      4.2     4.5     4.7     5.1     5.5     5.9     6.3     6.8     7.1]
 y = [102.56 113.18  130.11  142.05  167.53  195.14  224.87  256.73  299.5   326.72]
 
 
-
+// a)
 p1 = minimosCuadrados(x, y, 1)
 p2 = minimosCuadrados(x, y, 2)
 p3 = minimosCuadrados(x, y, 3)
 
-// TODO REVISAR DAN MUY MAL
+// Gráficos de funciones
+// plot2d(x, y, style=color("red"))
+// plot2d(x, horner(p1, x), style=color("green"))
+// plot2d(x, horner(p2, x), style=color("blue"))
+// plot2d(x, horner(p3, x), style=color("pink"))
+
+// Errores
 // disp(norm(horner(p1, x) - y))
-// plot(x, y)
-// plot(x, horner(p2, x))
-
 // disp(norm(horner(p2, x) - y))
-
 // disp(norm(horner(p3, x) - y))
 
+// Podemos ver que el polinomio de grado 1 tiene un error grande
+// mientras que los polinomios de grado 2 y 3 son casi idénticos a la función
 
+// Gráficos de errores
+// plot2d(x, abs(horner(p1, x) - y), style=color("green"))
+// plot2d(x, abs(horner(p2, x) - y), style=color("blue"))
+// plot2d(x, abs(horner(p3, x) - y), style=color("pink"))
 
 // Ejercicio 9
 
@@ -279,8 +295,8 @@ deff('y = f(x)', 'y = 1 / 1 + x^2')
 
 
 // TODO ES CON POLINOMIO DE INTERPOLACION
-//xgrid()
-// for n=2:2:14
+// xgrid()
+// for n=2:2:2
 //     x = linspace(-5, 5, n)'
 //     y = f(x)
 //     p = interpolacionLagrange(x, y)
@@ -288,6 +304,32 @@ deff('y = f(x)', 'y = 1 / 1 + x^2')
 //     t = -5:.01:5
 //     plot(t, abs (f(t) - horner(p, t)))
 // end
+
+// x = linspace(-5, 5, 2)'
+// y = f(x)
+// p = interpolacionLagrange(x, y)
+
+// t = -5:.01:5
+// plot2d(t, f(t) - horner(p, t), style = color("green"))
+
+function Ejercicio9(n, c)
+    x = linspace(-5, 5, n)'
+    y = f(x)
+    p = interpolacionLagrange(x, y)
+
+    t = -5:.01:5
+    plot2d(t, f(t) - horner(p, t), style = color(c))
+endfunction
+
+// Ejercicio9(2, 'red')
+// Ejercicio9(4, 'green')
+// Ejercicio9(6, 'blue')
+// Ejercicio9(10, 'pink')
+// Ejercicio9(14, 'magenta')
+
+// Podemos notar que la mejor aproximación fue la de grado 4
+// Se ve una tendencia a mayor error a medida que aumentamos el grado del polinomio
+// Notemos que el error tiene un pico alrededor de -4.5 y parece crecer hacia +inf
 
 // Los errores tienden a aumentar a medida que 
 // nos alejamos del 0
@@ -297,7 +339,9 @@ deff('y = f(x)', 'y = 1 / 1 + x^2')
 
 // Parece ser el fenómeno de Runge
 
-
+// Calcula n nodos de Chebyshev
+// para el intervalo [-1, 1]
+// Retora el polinomio de Chebyshev p de grado n y sus raices r
 function [p, r] = chebyshev(n)
     // Casos base
     c(1) = poly(1, 'x', 'c')
@@ -322,6 +366,11 @@ p = interpolacionLagrange(x, y)
 // plot(t, horner(p, t)-exp(t))
 
 // Ejercicio 11
+
+// Calcula n nodos de Chebyshev
+// para el intervalo [a, b]
+// a partir de un cambio lineal de variable 
+// Retora el polinomio de Chebyshev p de grado n y sus raices r
 function nc = nodosChebyshev(n, a, b)
     [p, r] = chebyshev(n)
     nc = ((b + a) + r * (b - a)) / 2
@@ -330,10 +379,12 @@ endfunction
 a = 0
 b = %pi/4
 
-x = nodosChebyshev(4, a, b)
+n = 4
+
+x = nodosChebyshev(n, a, b)
 y = cos(x)
 
 p = interpolacionLagrange(x, y)
 
-// t=[a:.1:b]
-// plot(t, horner(p, t) - cos(t))
+t=[a:.1:b]
+plot2d(t, horner(p, t) - cos(t), style=color("red"))
