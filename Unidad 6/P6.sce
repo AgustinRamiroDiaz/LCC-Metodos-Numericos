@@ -193,14 +193,14 @@ endfunction
 function [lambda, z, i] = metodoDeLaPotencia(A, z, eps, maxIter)
     for i=1:maxIter
         w = A * z
-        znuevo = w / max(abs(w))
+        znuevo = w / norm(w, 'inf')
         if norm(znuevo - z) < eps   // Vemos si se cumple la regla de corte
             z = znuevo  // z representa nuestro z^n
             break
         end
         z = znuevo
     end
-    k = find(w, 1) // Encontramos posición de la primer componente no nula
+    [_, k] = max(abs(w)) // Encontramos posición de una componente no nula (en este caso la de mayor módulo)
     w = A*z        // conseguimos w^(n+1)
     lambda = w(k) / z(k)
 endfunction
@@ -234,9 +234,3 @@ endfunction
 [diff1, i1] = comparar(A1, rand(4, 1), 1e-12, 100)
 
 [diff2, i2] = comparar(A2, rand(4, 1), 1e-12, 100)
-
-
-// TODO REVISAR ESTA MATRIZ
-A = [1 0 0; 
-    -1 0 1; 
-    -1 -1 3];
