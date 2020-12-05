@@ -1,3 +1,5 @@
+// TODAS LAS FUNCIONES TRABAJAN CON VECTORES FILA
+
 function y = Lk(x,k)
     [m, n] = size(x)
     r = x
@@ -250,15 +252,12 @@ p1 = minimosCuadrados(x, y, 1)
 p2 = minimosCuadrados(x, y, 2)
 p3 = minimosCuadrados(x, y, 3)
 
-// disp(norm(horner(p1, x) - y))
-//    0.2315637
-
-// disp(norm(horner(p2, x) - y))
-//    0.2305248
-
-// disp(norm(horner(p3, x) - y))
-//    0.2012893
-
+// disp(sum(abs((horner(p1, x) - y))))
+// 0.4784433
+// disp(sum(abs((horner(p2, x) - y))))
+// 0.4665116
+// disp(sum(abs((horner(p3, x) - y))))
+// 0.3821412
 
 // Ejercicio 8
 x = [4      4.2     4.5     4.7     5.1     5.5     5.9     6.3     6.8     7.1]
@@ -363,7 +362,7 @@ p = interpolacionLagrange(x, y)
 
 // b)
 // t=[-1:.1:1]
-// plot(t, horner(p, t)-exp(t))
+// plot(t, exp(t) - horner(p, t))
 
 // Ejercicio 11
 
@@ -387,4 +386,4 @@ y = cos(x)
 p = interpolacionLagrange(x, y)
 
 t=[a:.1:b]
-plot2d(t, horner(p, t) - cos(t), style=color("red"))
+// plot2d(t, horner(p, t) - cos(t), style=color("red"))

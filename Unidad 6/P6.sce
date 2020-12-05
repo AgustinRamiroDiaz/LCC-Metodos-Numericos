@@ -57,33 +57,26 @@
 // Ejercicio 2
 // TODO
 
-// // Ejercicio 3
-// // i)
+// Ejercicio 3
+// i)
+// ii)
+k = 0:10
+eps = .1*k
 
-// k = 0:10
-// eps = .1*k
+raices = zeros(11, 3)
+av = zeros(11, 3)
 
-// raices = zeros(3, 3)
-// for i=k+1
-//     disp('Epsilon: ', eps(i))
-//     A = [1 -1 0; -2 4 -2; 0 -1 1] + [0 0 0; 0 0 0; 0 0 eps(i)];
-//     // disp('Matriz A: ', A)
-//     p = poly(A, 'x')
-//     disp('Polinomio Característico: ', p)
-//     raices(i, :) = roots(p)
-//     disp('Raices: ', raices(i, :))
-// end
-
-// // ii)
-// av = zeros(3, 3)
-// for i=k+1
-//     disp('Epsilon: ', eps(i))
-//     A = [1 -1 0; -2 4 -2; 0 -1 1] + [0 0 0; 0 0 0; 0 0 eps(i)];
-//     // disp('Matriz A: ', A)
-//     av(i, :) = spec(A)
-//     disp('Autovalores de A: ', av(i, :))
-// end
-// TODO REVISAR, DAN DISTINTO LOS AUTOVALORES Y LAS RAICES
+for i=k+1
+    disp('Epsilon: ', eps(i))
+    A = [1 -1 0; -2 4 -2; 0 -1 1] + [0 0 0; 0 0 0; 0 0 eps(i)];
+    // disp('Matriz A: ', A)
+    p = poly(A, 'x')
+    disp('Polinomio Característico: ', p)
+    raices(i, :) = gsort(roots(p))
+    disp('Raices: ', raices(i, :))
+    av(i, :) = gsort(spec(A))
+    disp('Autovalores de A: ', av(i, :))
+end
 
 // Ejercicio 4
 
