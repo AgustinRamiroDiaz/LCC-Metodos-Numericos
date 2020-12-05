@@ -180,8 +180,6 @@ endfunction
 // Ejercicio 5
 // a)
 
-// TODO CORREGIR Y TERMINAR
-
 // Aplica el método de la potencia a la matriz A
 // partiendo del vector inicial z
 // con un máximo de iteraciones maxIter

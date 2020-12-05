@@ -144,6 +144,55 @@ x = [.2 .4]
 // Ejercicio 4
 // TODO PARECIDO ANTERIOR
 
+
+// Ejercicio 5
+// P_0,1 (x) = 2x + 1
+// P_0,2 (x) = x + 1
+// P_1,2,3 (2.5) = 3
+
+// P_0,1 (x) = L_0(x)y_0 + L_1(x)y_1
+// P_0,1 (x) = (x-1)/(0-1) * y_0 + L_1(x)y_1
+// P_0,1 (x) = (x-1)/(-1) * y_0 + L_1(x)y_1
+// P_0,1 (x) = -(x-1) * y_0 + (x-0)/(1-0) * y_1
+// P_0,1 (x) = (1-x) * y_0 + x * y_1
+// P_0,1 (x) =  y0 - x * y0 + x * y_1
+// P_0,1 (x) =  y0 + x * (-y0 + y_1)    *1*
+
+// P_0,1 (x) = 2x + 1                  *2*
+
+// de *1* y *2* concluimos
+y0 = 1
+y1 = 3
+
+// P_0,2 (x) = L_0(x)y_0 + L_2(x)y_2
+// P_0,2 (x) = (x-2) / (0-2) * y_0 + x/2 * y_2
+// P_0,2 (x) = (x-2) / (-2) * y_0 + x/2 * y_2
+// P_0,2 (x) = (1 - x/2) * y_0 + x/2 * y_2
+// P_0,2 (x) = y_0 - x/2 * y0 + x/2 * y_2
+// P_0,2 (x) = y_0 + x * (-y0 + y2) / 2
+
+// P_0,2 (x) = x + 1
+
+// Por lo tanto
+y2 = 3
+
+// P_1,2,3 (2.5) = L1(2.5) * y1 + L2(2.5) * y2 + L3(2.5) * y3
+// P_1,2,3 (2.5) = L1(2.5) * 3 + L2(2.5) * 3 + L3(2.5) * y3
+// P_1,2,3 (2.5) = (2.5 - 2) * (2.5 - 3) / (1 - 2) / (1 - 3) * 3 + L2(2.5) * 3 + L3(2.5) * y3
+// P_1,2,3 (2.5) = 
+//     (2.5 - 2) * (2.5 - 3) / (1 - 2) / (1 - 3) * 3 + 
+//     (2.5 - 1) * (2.5 - 3) / (2 - 1) / (2 - 3) * 3 + 
+//     (2.5 - 1) * (2.5 - 2) / (3 - 1) / (3 - 2) * y3
+// P_1,2,3 (2.5) = -3/8 + 9/4 + 3/8 * y3
+// 3 = 1.875 + 3/8 * y3
+// 1.125= 3/8 * y3
+y3 = 3
+
+horner(interpolacionLagrange([0, 1, 2, 3], [y0, y1, y2, y3]), 2.5)
+2.8750000
+
+
+
 // Ejercicio 6
 // p(x) = 
 //     f[x0] +                      
@@ -197,52 +246,6 @@ function pol = minimosCuadrados(x, y, grado)
     pol = poly(a, 'x', 'c')
 endfunction
 
-// Ejercicio 5
-// P_0,1 (x) = 2x + 1
-// P_0,2 (x) = x + 1
-// P_1,2,3 (2.5) = 3
-
-// P_0,1 (x) = L_0(x)y_0 + L_1(x)y_1
-// P_0,1 (x) = (x-1)/(0-1) * y_0 + L_1(x)y_1
-// P_0,1 (x) = (x-1)/(-1) * y_0 + L_1(x)y_1
-// P_0,1 (x) = -(x-1) * y_0 + (x-0)/(1-0) * y_1
-// P_0,1 (x) = (1-x) * y_0 + x * y_1
-// P_0,1 (x) =  y0 - x * y0 + x * y_1
-// P_0,1 (x) =  y0 + x * (-y0 + y_1)    *1*
-
-// P_0,1 (x) = 2x + 1                  *2*
-
-// de *1* y *2* concluimos
-y0 = 1
-y1 = 3
-
-// P_0,2 (x) = L_0(x)y_0 + L_2(x)y_2
-// P_0,2 (x) = (x-2) / (0-2) * y_0 + x/2 * y_2
-// P_0,2 (x) = (x-2) / (-2) * y_0 + x/2 * y_2
-// P_0,2 (x) = (1 - x/2) * y_0 + x/2 * y_2
-// P_0,2 (x) = y_0 - x/2 * y0 + x/2 * y_2
-// P_0,2 (x) = y_0 + x * (-y0 + y2) / 2
-
-// P_0,2 (x) = x + 1
-
-// Por lo tanto
-y2 = 3
-
-// P_1,2,3 (2.5) = L1(2.5) * y1 + L2(2.5) * y2 + L3(2.5) * y3
-// P_1,2,3 (2.5) = L1(2.5) * 3 + L2(2.5) * 3 + L3(2.5) * y3
-// P_1,2,3 (2.5) = (2.5 - 2) * (2.5 - 3) / (1 - 2) / (1 - 3) * 3 + L2(2.5) * 3 + L3(2.5) * y3
-// P_1,2,3 (2.5) = 
-//     (2.5 - 2) * (2.5 - 3) / (1 - 2) / (1 - 3) * 3 + 
-//     (2.5 - 1) * (2.5 - 3) / (2 - 1) / (2 - 3) * 3 + 
-//     (2.5 - 1) * (2.5 - 2) / (3 - 1) / (3 - 2) * y3
-// P_1,2,3 (2.5) = -3/8 + 9/4 + 3/8 * y3
-// 3 = 1.875 + 3/8 * y3
-// 1.125= 3/8 * y3
-y3 = 3
-
-horner(interpolacionLagrange([0, 1, 2, 3], [y0, y1, y2, y3]), 2.5)
-2.8750000
-
 
 // Ejercicio 7
 x = [0  .15     .31     .5      .6      .75];
@@ -292,33 +295,15 @@ p3 = minimosCuadrados(x, y, 3)
 
 deff('y = f(x)', 'y = 1 / 1 + x^2') 
 
-
-// TODO ES CON POLINOMIO DE INTERPOLACION
 // xgrid()
-// for n=2:2:2
+// function Ejercicio9(n, c)
 //     x = linspace(-5, 5, n)'
 //     y = f(x)
 //     p = interpolacionLagrange(x, y)
 
 //     t = -5:.01:5
-//     plot(t, abs (f(t) - horner(p, t)))
-// end
-
-// x = linspace(-5, 5, 2)'
-// y = f(x)
-// p = interpolacionLagrange(x, y)
-
-// t = -5:.01:5
-// plot2d(t, f(t) - horner(p, t), style = color("green"))
-
-function Ejercicio9(n, c)
-    x = linspace(-5, 5, n)'
-    y = f(x)
-    p = interpolacionLagrange(x, y)
-
-    t = -5:.01:5
-    plot2d(t, f(t) - horner(p, t), style = color(c))
-endfunction
+//     plot2d(t, f(t) - horner(p, t), style = color(c))
+// endfunction
 
 // Ejercicio9(2, 'red')
 // Ejercicio9(4, 'green')
@@ -337,6 +322,11 @@ endfunction
 // obtenemos errores mayores
 
 // Parece ser el fenómeno de Runge
+
+
+
+
+
 
 // Calcula n nodos de Chebyshev
 // para el intervalo [-1, 1]
