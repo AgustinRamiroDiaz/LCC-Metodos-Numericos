@@ -1,5 +1,8 @@
 // TODAS LAS FUNCIONES TRABAJAN CON VECTORES FILA
 
+// Calcula el polinomio L_k para la 
+// interpolación de Lagrange
+// a partir del vector x de preimágenes
 function y = Lk(x,k)
     [m, n] = size(x)
     r = x
@@ -9,7 +12,8 @@ function y = Lk(x,k)
     y = p / pk
 endfunction
 
-
+// Calcula el polinomio de interpolación de Lagrange
+// para los puntos x con imagen y
 function p = interpolacionLagrange(x, y)
     [m,n] = size(x)
     p = 0
@@ -18,7 +22,8 @@ function p = interpolacionLagrange(x, y)
     end
 endfunction
 
-
+// Calcula las diferencias divididas de Newton
+// para los puntos x con imagen y
 function dd = diferenciasDivididas(x, y)
     [m, n] = size(x)
     if n == 1
@@ -28,7 +33,8 @@ function dd = diferenciasDivididas(x, y)
     end
 endfunction
 
-
+// Calcula el polinomio de interpolación de Newton por diferencias divididas
+// para los puntos x con imagen y
 function p = interpolacionNewton(x, y)
     [m,n] = size(x)
     // Polinomio n
@@ -69,7 +75,7 @@ endfunction
 // disp('Cota error cúbico: ' + string(cotaErrorCubico))
 
 // // Lineal:
-x = [.2 .4]
+// x = [.2 .4]
 // y = [1.2214 1.4918]
 // disp("Lineal")
 // // Lagrange:
@@ -101,7 +107,6 @@ x = [.2 .4]
 // p = interpolacionNewton(x, y)
 // errorExacto = horner(p, 1/3)-1.395612425
 // disp("Error lineal: ", errorExacto)
-// // TODO COTAS DE ERROR
 
 
 // Ejercicio 2
@@ -236,18 +241,18 @@ horner(interpolacionLagrange([0, 1, 2, 3], [y0, y1, y2, y3]), 2.5)
 // |f(0) - p(0)| <= 11.2 
 
 
-function pol = minimosCuadrados(x, y, grado)
-    [m, n] = size(x)
-    // Definimos A tomando ɸ_k como x^k  
-    A = zeros(n, grado + 1)
-    for i = 1:n
-        for j = 0:grado
-            A(i, j+1) = x(i) ^ j
-        end
-    end
-    a = inv(A' * A) * A' * y'
-    pol = poly(a, 'x', 'c')
-endfunction
+// function pol = minimosCuadrados(x, y, grado)
+//     [m, n] = size(x)
+//     // Definimos A tomando ɸ_k como x^k  
+//     A = zeros(n, grado + 1)
+//     for i = 1:n
+//         for j = 0:grado
+//             A(i, j+1) = x(i) ^ j
+//         end
+//     end
+//     a = inv(A' * A) * A' * y'
+//     pol = poly(a, 'x', 'c')
+// endfunction
 
 
 // Ejercicio 7
@@ -298,7 +303,7 @@ p3 = minimosCuadrados(x, y, 3)
 
 deff('y = f(x)', 'y = 1 ./ (1 + x^2)') 
 
-xgrid()
+// xgrid()
 function Ejercicio9(n, c)
     x = linspace(-5, 5, n)
     y = f(x)
@@ -308,11 +313,11 @@ function Ejercicio9(n, c)
     plot2d(t, f(t) - horner(p, t), style = color(c))
 endfunction
 
-Ejercicio9(2, 'red')
-Ejercicio9(4, 'green')
-Ejercicio9(6, 'blue')
-Ejercicio9(10, 'pink')
-Ejercicio9(14, 'magenta')
+// Ejercicio9(2, 'red')
+// Ejercicio9(4, 'green')
+// Ejercicio9(6, 'blue')
+// Ejercicio9(10, 'pink')
+// Ejercicio9(14, 'magenta')
 
 // TODO REVISAR TENDENCIA
 // Se ve una tendencia a mayor error a medida que aumentamos el grado del polinomio
