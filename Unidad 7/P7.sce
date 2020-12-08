@@ -131,22 +131,7 @@ endfunction
 
 
 // Ejercicio 3
-// Por el Teorema 3 (Error de la Interpolación Polinómica)
-// sabemos que para x0, x1 distintos en [0, 1],
-// existe ξ en (0, 1) tal que
-// f(x) - p(x) = (x - x0)(x - x1) / 2! * f^(2) (ξ) 
-// = (x - x0)(x - x1) / 2 * f^(2) (ξ)
-//     |J0''(x)| <= 1 
-// <= (x - x0)(x - x1) / 2
-// = (x - x0)(x - x1) / 2 
-// = (x - x0)(x - x1) * -13 / 80
-//     y queremos
-// (x - x0)(x - x1) * -13 / 80 < .5e-6
-// (x - x0)(x - x1) * > 3.08e-6
-
-
-
-// WTF TODO
+// WTF TODO en papel
 
 
 // Ejercicio 4
@@ -242,7 +227,7 @@ y3 = 3
 
 // p3(0) = 3 + -2 * 1 * -1 + 2 * 1 * -1 * -2
 //       = 3 + 2 + 2 * 2
-//       = 11
+//       = 9
 
 // c)
 // f(x) - p3(x) = (x - x0)(x - x1)...(x-xn) / (n+1)! * f^(n+1) (ξ) 
@@ -283,6 +268,15 @@ p3 = minimosCuadrados(x, y, 3)
 // 0.4665116
 // disp(sum(abs((horner(p3, x) - y))))
 // 0.3821412
+
+// disp(norm(horner(p1, x) - y))
+// 0.2315637
+// disp(norm(horner(p2, x) - y))
+// 0.2305248
+// disp(norm(horner(p3, x) - y))
+// 0.2012893
+
+// La mejor aproximación de mínimos cuadrados es la de grado 3
 
 // Ejercicio 8
 x = [4      4.2     4.5     4.7     5.1     5.5     5.9     6.3     6.8     7.1]
@@ -334,15 +328,13 @@ endfunction
 // Ejercicio9(10, 'pink')
 // Ejercicio9(14, 'magenta')
 
-// TODO REVISAR TENDENCIA
-// Se ve una tendencia a mayor error a medida que aumentamos el grado del polinomio
-// Notemos que el error tiene un pico alrededor de -4.5 y parece crecer hacia +inf
 
 // Los errores tienden a aumentar a medida que 
 // nos alejamos del 0
 
 // Vemos que a medida que aumenta el n
-// obtenemos errores mayores
+// obtenemos errores menores cerca del 0
+// pero mayores hacia los extremos -5 y 5
 
 // Parece ser el fenómeno de Runge
 
