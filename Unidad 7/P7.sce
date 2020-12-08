@@ -150,8 +150,22 @@ endfunction
 
 
 // Ejercicio 4
-// TODO PARECIDO ANTERIOR
+// TODO CORREGIR EN BASE AL ANTERIOR
+x = [2 2.1 2.2 2.3 2.4 2.5]
+y = [0.2239 0.1666 0.1104 0.0555 0.0025 -0.0484]
 
+function y = J0(x)
+    deff('y=f(t)', 'y=cos(x*sin(t))')
+    i = integrate('f(t)', 't', 0, %pi)
+    y = i / %pi
+endfunction
+
+p = interpolacionNewton(x, y)
+v1 = horner(p, 2.15)
+v2 = horner(p, 2.35)
+
+v1real = J0(2.15)
+v2real = J0(2.35)
 
 // Ejercicio 5
 // P_0,1 (x) = 2x + 1
@@ -196,7 +210,7 @@ y2 = 3
 // 1.125= 3/8 * y3
 y3 = 3
 
-horner(interpolacionLagrange([0, 1, 2, 3], [y0, y1, y2, y3]), 2.5)
+// disp(horner(interpolacionLagrange([0 1 2 3], [y0 y1 y2 y3]), 2.5))
 2.8750000
 
 
@@ -241,18 +255,18 @@ horner(interpolacionLagrange([0, 1, 2, 3], [y0, y1, y2, y3]), 2.5)
 // |f(0) - p(0)| <= 11.2 
 
 
-// function pol = minimosCuadrados(x, y, grado)
-//     [m, n] = size(x)
-//     // Definimos A tomando ɸ_k como x^k  
-//     A = zeros(n, grado + 1)
-//     for i = 1:n
-//         for j = 0:grado
-//             A(i, j+1) = x(i) ^ j
-//         end
-//     end
-//     a = inv(A' * A) * A' * y'
-//     pol = poly(a, 'x', 'c')
-// endfunction
+function pol = minimosCuadrados(x, y, grado)
+    [m, n] = size(x)
+    // Definimos A tomando ɸ_k como x^k  
+    A = zeros(n, grado + 1)
+    for i = 1:n
+        for j = 0:grado
+            A(i, j+1) = x(i) ^ j
+        end
+    end
+    a = inv(A' * A) * A' * y'
+    pol = poly(a, 'x', 'c')
+endfunction
 
 
 // Ejercicio 7
@@ -274,10 +288,11 @@ p3 = minimosCuadrados(x, y, 3)
 x = [4      4.2     4.5     4.7     5.1     5.5     5.9     6.3     6.8     7.1]
 y = [102.56 113.18  130.11  142.05  167.53  195.14  224.87  256.73  299.5   326.72]
 
-
 // a)
 p1 = minimosCuadrados(x, y, 1)
 p2 = minimosCuadrados(x, y, 2)
+
+// TODO REVISAR DICE QUE LA MATRIZ ES MUY CERCANA A SINGULAR
 p3 = minimosCuadrados(x, y, 3)
 
 // Gráficos de funciones
