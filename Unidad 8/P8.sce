@@ -159,22 +159,22 @@ a = 0
 b = 1.5
 n = 10
 
-// // a)
-// t = metodoCompuestoTrapecio(f, a, b, n)
-// disp("Trapecio: " + string(t))
+// a)
+t = metodoCompuestoTrapecio(f, a, b, n)
+disp("Trapecio: " + string(t))
 
-// // b)
-// s = metodoCompuestoSimpson(f, a, b, n)
-// disp("Simpson: " + string(s))
+// b)
+s = metodoCompuestoSimpson(f, a, b, n)
+disp("Simpson: " + string(s))
 
-// // c)
-// I = .9262907
+// c)
+I = .9262907
 
-// disp("Error absoluto Trapecio: " + string(abs(I - t)))
-// disp("Error relativo Trapecio: " + string(abs((I - t) / I)))
+disp("Error absoluto Trapecio: " + string(abs(I - t)))
+disp("Error relativo Trapecio: " + string(abs((I - t) / I)))
 
-// disp("Error absoluto Simpson: " + string(abs(I - s)))
-// disp("Error relativo Simpson: " + string(abs((I - s) / I)))
+disp("Error absoluto Simpson: " + string(abs(I - s)))
+disp("Error relativo Simpson: " + string(abs((I - s) / I)))
 
 
 

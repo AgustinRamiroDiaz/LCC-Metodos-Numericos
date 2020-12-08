@@ -123,20 +123,23 @@ x = [.2 .4]
 
 // Por lo tanto f(x) = p(x) para todo x
 
+
+
 // Ejercicio 3
 // Por el Teorema 3 (Error de la Interpolación Polinómica)
 // sabemos que para x0, x1 distintos en [0, 1],
 // existe ξ en (0, 1) tal que
 // f(x) - p(x) = (x - x0)(x - x1) / 2! * f^(2) (ξ) 
 // = (x - x0)(x - x1) / 2 * f^(2) (ξ)
-//     como la derivada segunda de J0 es creciente en [0, 1]
-//     J0'(x)= 1 / %pi * 
-// <= (x - x0)(x - x1) / 2 * f^(2) (1)
-// = (x - x0)(x - x1) / 2 * -13/40
+//     |J0''(x)| <= 1 
+// <= (x - x0)(x - x1) / 2
+// = (x - x0)(x - x1) / 2 
 // = (x - x0)(x - x1) * -13 / 80
 //     y queremos
 // (x - x0)(x - x1) * -13 / 80 < .5e-6
 // (x - x0)(x - x1) * > 3.08e-6
+
+
 
 // WTF TODO
 
@@ -293,25 +296,25 @@ p3 = minimosCuadrados(x, y, 3)
 
 // Ejercicio 9
 
-deff('y = f(x)', 'y = 1 / 1 + x^2') 
+deff('y = f(x)', 'y = 1 ./ (1 + x^2)') 
 
-// xgrid()
-// function Ejercicio9(n, c)
-//     x = linspace(-5, 5, n)'
-//     y = f(x)
-//     p = interpolacionLagrange(x, y)
+xgrid()
+function Ejercicio9(n, c)
+    x = linspace(-5, 5, n)
+    y = f(x)
+    p = interpolacionLagrange(x, y)
 
-//     t = -5:.01:5
-//     plot2d(t, f(t) - horner(p, t), style = color(c))
-// endfunction
+    t = -5:.01:5
+    plot2d(t, f(t) - horner(p, t), style = color(c))
+endfunction
 
-// Ejercicio9(2, 'red')
-// Ejercicio9(4, 'green')
-// Ejercicio9(6, 'blue')
-// Ejercicio9(10, 'pink')
-// Ejercicio9(14, 'magenta')
+Ejercicio9(2, 'red')
+Ejercicio9(4, 'green')
+Ejercicio9(6, 'blue')
+Ejercicio9(10, 'pink')
+Ejercicio9(14, 'magenta')
 
-// Podemos notar que la mejor aproximación fue la de grado 4
+// TODO REVISAR TENDENCIA
 // Se ve una tendencia a mayor error a medida que aumentamos el grado del polinomio
 // Notemos que el error tiene un pico alrededor de -4.5 y parece crecer hacia +inf
 

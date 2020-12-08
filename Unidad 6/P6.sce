@@ -24,7 +24,7 @@
 //     -.1 -.1 2]
 
 // Filas
-// |λ - 1| <= 0
+// λ = 1
 // |λ| <= .2
 // |λ - 2| <= .2
 
@@ -40,7 +40,7 @@
 //     -.25 -.25 2]
 
 // Filas
-// |λ - 1| <= 0
+// λ = 1
 // |λ| <= .5
 // |λ - 2| <= .5
 
@@ -123,6 +123,7 @@ av = zeros(11, 3)
 //     disp('Autovalores de A: ', av(i, :))
 // end
 
+
 // Ejercicio 4
 
 // a)
@@ -136,7 +137,7 @@ endfunction
 
 // b)
 // Dada una matriz A
-// dibuja todos sus círculos de Gershgorin
+// dibuja todos sus círculos de Gerschgorin
 function Gers(A)
     [m, n] = size(A)
 
@@ -163,7 +164,7 @@ endfunction
 
 // c)
 // Dada una matriz A
-// dibuja todos sus círculos de Gershgorin
+// dibuja todos sus círculos de Gerschgorin
 // y marca sus autovalores
 function CircGersValor(A)
     Gers(A)
@@ -171,9 +172,7 @@ function CircGersValor(A)
     plot2d(real(autov), imag(autov), -1)
 endfunction
 
-// A = [1 0 0; 
-//     -1 0 1; 
-//     -1 -1 3];
+A = [1 0 0; -1 0 1; -1 -1 2];
 
 // CircGersValor(A)
 
@@ -210,14 +209,14 @@ A1 = [6 4 4 1;
       4 1 6 4;
       1 4 4 6]
 
-[lambda1, z1, i1] = metodoDeLaPotencia(A1, rand(4, 1), 1e-12, 100)
+[lambda1, z1, i1] = metodoDeLaPotencia(A1, [1 2 3 4]', 1e-10, 100)
 
 A2 = [12 1 3 4;
-      1 -2 1 5;
+      1 -3 1 5;
       3 1 6 -2;
       4 5 -2 -1]
 
-[lambda2, z2, i2] = metodoDeLaPotencia(A2, rand(4, 1), 1e-12, 100)
+[lambda2, z2, i2] = metodoDeLaPotencia(A2, [1 0 0 0]', 1e-10, 100)
 
 // Compara la diferencia entre el autovalor aproximado por el 
 // método de la potencia y el mayor autovalor, 
@@ -226,11 +225,11 @@ function [diff, i] = comparar(A, z, eps, maxIter)
     [lambda, z, i] = metodoDeLaPotencia(A, z, eps, maxIter)
     autoValores = spec(A)
     [_, k] = max(abs(autoValores))
-    autoValor = autoValores(k)
+    autoValor_max = autoValores(k)
 
-    diff = lambda - autoValor
+    diff = abs(lambda - autoValor_max)
 endfunction
 
-[diff1, i1] = comparar(A1, rand(4, 1), 1e-12, 100)
+[diff1, it1] = comparar(A1, [1 2 3 4]', 1e-10, 100)
 
-[diff2, i2] = comparar(A2, rand(4, 1), 1e-12, 100)
+[diff2, it2] = comparar(A2, [1 0 0 0]', 1e-10, 100)
