@@ -106,6 +106,7 @@
 
 
 // Ejercicio 3
+// TODO REVISAR ACOTAR EL ERROR CON LOS RESULTADOS DEL EJERCICIO 2
 // i)
 // ii)
 k = 0:10
@@ -126,6 +127,13 @@ av = zeros(11, 3)
 //     disp('Autovalores de A: ', av(i, :))
 // end
 
+
+// Podría ver de aplicar a partir del polinomio caracteístico
+// p(λ) = λ^n + a_n-1 λ^(n-1) + ... + a_1 λ + a_0
+// para calcular las raícs r
+// |r| <= 1   o   |r + a_(n-1)| <= |a_0| + ... + |a_(n-2)|
+// y
+// |r| <= a_0   o   |r| <= 1 + |a_i| para i=1...n-2   o   |r + a_(n-1)| <= 1
 
 // Ejercicio 4
 

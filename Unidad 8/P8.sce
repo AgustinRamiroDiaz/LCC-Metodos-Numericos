@@ -311,8 +311,6 @@ deff('y=d(x)', 'y=sin(acos(x-1))')
 t = integralBidimensionalTrapecio(f, 0, 2, c, d, 100)
 s = integralBidimensionalSimpson(f, 0, 2, c, d, 100)
 
-// TODO OTROS MÉTODOS
-
 
 // function I = integralBidimensionalSimpson(f, a, b, c, d, n)
 //     G = \x -> integrar(f x, c x, d x)
