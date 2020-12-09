@@ -33,19 +33,33 @@ function dd = diferenciasDivididas(x, y)
     end
 endfunction
 
+// Versión sin encajar
 // Calcula el polinomio de interpolación de Newton por diferencias divididas
 // para los puntos x con imagen y
-function p = interpolacionNewton(x, y)
+// function p = interpolacionNewton(x, y)
+//     [m,n] = size(x)
+//     // Polinomio resultante
+//     p = diferenciasDivididas(x(1), y(1))
+//     for k = 2:n
+//         np = poly(x(1:k-1), 'x', 'r')
+//         p = p + np * diferenciasDivididas(x(1:k), y(1:k))
+//     end
+// endfunction
+
+
+// Versión con multiplicaciones encajadas
+// Calcula el polinomio de interpolación de Newton por diferencias divididas
+// para los puntos x con imagen y
+function pn = interpolacionNewton(x, y)
     [m,n] = size(x)
-    // Polinomio n
-    np = 1
-    p = diferenciasDivididas(x(1), y(1))
-    for k = 2:n
-        np = poly(x(1:k-1), 'x', 'r')
-        p = p + np * diferenciasDivididas(x(1:k), y(1:k))
+    // Polinomio resultante
+    pn = 0
+    for k = n:-1:1
+        dd = diferenciasDivididas(x(1:k), y(1:k))   // D_k
+        p = poly(x(k), 'x', 'r')                    // (x-x_k)
+        pn = dd + p * pn                            // Iteración
     end
 endfunction
-
 
 
 
@@ -249,7 +263,8 @@ function pol = minimosCuadrados(x, y, grado)
             A(i, j+1) = x(i) ^ j
         end
     end
-    a = inv(A' * A) * A' * y'
+    // Calculamos los coeficientes utilizando el Teorema 2
+    a = (A' * A) \ (A' * y')
     pol = poly(a, 'x', 'c')
 endfunction
 
