@@ -225,14 +225,25 @@ A2 = [12 1 3 4;
 // método de la potencia y el mayor autovalor, 
 // considerando el número de iteraciones realizadas
 function [diff, i] = comparar(A, z, eps, maxIter)
-    [lambda, z, i] = metodoDeLaPotencia(A, z, eps, maxIter)
     autoValores = spec(A)
     [_, k] = max(abs(autoValores))
     autoValor_max = autoValores(k)
+    
+    // lambda es el vector de todos los valores de las iteraciones
+    // del autovalor que queremos calcular
+    for i=1:maxIter
+        [lambda(i), z, _] = metodoDeLaPotencia(A, z, 0, 1)
+        if abs(lambda(i) - autoValor_max) <= eps
+            break
+        end
+    end
 
-    diff = abs(lambda - autoValor_max)
+    diff = lambda - autoValor_max
 endfunction
 
-[diff1, it1] = comparar(A1, [1 2 3 4]', 1e-10, 100)
+[diff1, it1] = comparar(A1, rand(4, 1), 1e-10, 100)
 
-[diff2, it2] = comparar(A2, [1 0 0 0]', 1e-10, 100)
+[diff2, it2] = comparar(A2, rand(4, 1), 1e-10, 100)
+
+// plot(diff1)
+// plot(diff2)
