@@ -233,6 +233,7 @@ I = .9262907
 
 // Ejercicio 5
 
+// Integra respecto de y
 function i = GTrapecio(f, c, d, x, n)
     a = c(x)
     b = d(x)
@@ -246,6 +247,7 @@ function i = GTrapecio(f, c, d, x, n)
     i = i * h
 endfunction
 
+// Integra respecto de x e y
 function I = integralBidimensionalTrapecio(f, a, b, c, d, n)
     h = (b - a) / n
     X = a+h:h:b-h
@@ -310,3 +312,9 @@ t = integralBidimensionalTrapecio(f, 0, 2, c, d, 100)
 s = integralBidimensionalSimpson(f, 0, 2, c, d, 100)
 
 // TODO OTROS MÉTODOS
+
+
+// function I = integralBidimensionalSimpson(f, a, b, c, d, n)
+//     G = \x -> integrar(f x, c x, d x)
+//     integrar(G, a, b)
+// endfunction

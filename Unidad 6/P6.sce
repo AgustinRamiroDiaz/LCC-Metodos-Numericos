@@ -1,4 +1,7 @@
 // Ejercicio 1
+// SI LO PIDEN HACERLO A MANO
+// SI NO ES SIMÉTRICA, DIBUJAR CIRCULOS
+// SI ES SIMÉTRICA DAR INTERVALOS REALES
 
 // a)
 // |λ - A(i, i)| <= ΣA(i, j) - A(i, i)
