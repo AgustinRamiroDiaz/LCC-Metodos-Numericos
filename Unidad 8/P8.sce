@@ -58,8 +58,7 @@ endfunction
 
 
 // Ejercicio 1
-// TODO ENCONTRAR ERROR
-// // a)
+// a)
 // disp('f(x)=log(x)')
 // disp('a=1, b=2')
 
@@ -71,13 +70,36 @@ endfunction
 // 0.3465736
 
 // disp('Regla de Simpson', reglaSimpson(f, a, b))
-// 0.3465736
+// 0.3858346
 
 // disp('Integral Real', integrate('f(x)', 'x', a, b))
 // 0.3862944
 
+// Error Trapecio
+// log''(x) = -1/x^2 creciente negativa en [1, 2]
+// abs(log''(x)) decreciente positiva en [1, 2]
+// |E| = |h^3/12 * f''(c)|
+// |E| = h^3/12 * |f''(c)|
+// |E| <= 1/12 * |f''(1)|
+// |E| <= 1/12 * 1
+// |E| <= 1/12 = 0.0833333
+
+// Error Simpson
+// log''''(x) = -6/x^4 creciente negativa en [1, 2]
+// abs(log''''(x)) decreciente positiva en [1, 2]
+// |E| = |h^5/90 * f''''(c)|
+// |E| = |((b-a)/2)^5/90 * f''''(c)|
+// |E| = |(1/2)^5/90 * f''''(c)|
+// |E| = |1/2^5/90 * f''''(c)|
+// |E| = 1/2^5/90 * |f''''(c)|
+// |E| = 1 / 2880 * |f''''(c)|
+// |E| = 1 / 2880 * |f''''(1)|
+// |E| <= 1 / 2880 * 6
+// |E| <= 1 / 480 = 0.0020833
+
+
 // // b)
-// disp('f(x)=log(x)')
+// disp('f(x)=x^(1/3)')
 // disp('a=0, b=0.1')
 
 // deff('y=f(x)', 'y=x^(1/3)')
@@ -92,6 +114,18 @@ endfunction
 
 // disp('Integral Real', integrate('f(x)', 'x', a, b))
 // 0.0348119
+
+// Error Trapecio
+// x^(1/3)'' = -2/9x^(5/3) creciente negativa en [1, 2]
+// abs(x^(1/3)'') decreciente positiva en [1, 2]
+// el problema es que no está definida en 0
+// por lo tanto no podemos calcular una cota para su error
+
+// Error Simpson
+// log''''(x) = -80/81x^(11/3) creciente negativa en [1, 2]
+// abs(log''''(x)) decreciente positiva en [1, 2]
+// el problema es que no está definida en 0
+// por lo tanto no podemos calcular una cota para su error
 
 // // c)
 // disp('f(x)=sin^2(x)')
@@ -109,6 +143,25 @@ endfunction
 
 // disp('Integral Real', integrate('f(x)', 'x', a, b))
 // 0.3070924
+
+// Error Trapecio
+// sin^2(x)'' = 2*cos(2*x)
+// |E| = |h^3/12 * f''(c)|
+// |E| = h^3/12 * |f''(c)|
+// |E| <= (%pi/3)^3/12 * 2
+// |E| <= %pi^3/162 = 0.1913968
+
+// Error Simpson
+// sin^2(x)'''' = -8*cos(2x)
+// |E| = |h^5/90 * f''''(c)|
+// |E| = |((b-a)/2)^5/90 * f''''(c)|
+// |E| = |(%pi/6)^5/90 * f''''(c)|
+// |E| = |%pi^5/699840 * f''''(c)|
+// |E| = %pi^5/699840 * |f''''(c)|
+// |E| = %pi^5/699840 * |f''''(c)|
+// |E| <= %pi^5/699840 * 8
+// |E| <= 0.0034982
+
 
 
 // Ejercicio 2 
@@ -159,22 +212,22 @@ a = 0
 b = 1.5
 n = 10
 
-// a)
-t = metodoCompuestoTrapecio(f, a, b, n)
-disp("Trapecio: " + string(t))
+// // a)
+// t = metodoCompuestoTrapecio(f, a, b, n)
+// disp("Trapecio: " + string(t))
 
-// b)
-s = metodoCompuestoSimpson(f, a, b, n)
-disp("Simpson: " + string(s))
+// // b)
+// s = metodoCompuestoSimpson(f, a, b, n)
+// disp("Simpson: " + string(s))
 
 // c)
 I = .9262907
 
-disp("Error absoluto Trapecio: " + string(abs(I - t)))
-disp("Error relativo Trapecio: " + string(abs((I - t) / I)))
+// disp("Error absoluto Trapecio: " + string(abs(I - t)))
+// disp("Error relativo Trapecio: " + string(abs((I - t) / I)))
 
-disp("Error absoluto Simpson: " + string(abs(I - s)))
-disp("Error relativo Simpson: " + string(abs((I - s) / I)))
+// disp("Error absoluto Simpson: " + string(abs(I - s)))
+// disp("Error relativo Simpson: " + string(abs((I - s) / I)))
 
 
 
@@ -208,7 +261,7 @@ deff('y=f(x, y)', 'y=sin(x+y)')
 deff('y=c(x)', 'y=0')
 deff('y=d(x)', 'y=1')
 
-r = integralBidimensionalTrapecio(f, 0, 2, c, d, 2)
+r = integralBidimensionalTrapecio(f, 0, 2, c, d, 1)
 
 
 
