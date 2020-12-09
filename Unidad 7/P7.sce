@@ -149,7 +149,6 @@ endfunction
 
 
 // Ejercicio 4
-// TODO Revisar el error
 x = [2 2.1 2.2 2.3 2.4 2.5]
 y = [.2239 .1666 .1104 .0555 .0025 -.0484]
 
