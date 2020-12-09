@@ -151,7 +151,7 @@ endfunction
 // Ejercicio 4
 // TODO Revisar el error
 x = [2 2.1 2.2 2.3 2.4 2.5]
-y = [0.2239 0.1666 0.1104 0.0555 0.0025 -0.0484]
+y = [.2239 .1666 .1104 .0555 .0025 -.0484]
 
 function y = J0(x)
     deff('y=f(t)', 'y=cos(x*sin(t))')
@@ -165,6 +165,12 @@ v2 = horner(p, 2.35)
 
 v1real = J0(2.15)
 v2real = J0(2.35)
+
+// Calculemos el error 
+// (sabiendo por el ejercicio 3 que la derivada enésima está acotada por 0)
+perror = poly(x, 'x', 'roots') / factorial(6)
+v1cotaError = horner(perror, 2.15)
+v2cotaError = horner(perror, 2.35)
 
 // Ejercicio 5
 // P_0,1 (x) = 2x + 1
