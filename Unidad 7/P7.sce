@@ -76,7 +76,6 @@ endfunction
 // disp("Lagrange", horner(p, 1/3))
 // 1.3955494
 
-
 // // Newton:
 // p = interpolacionNewton(x, y)
 // disp("Newton", horner(p, 1/3))
@@ -87,6 +86,7 @@ endfunction
 // // y que e^x es creciente
 // cotaErrorCubico = horner(perror, 1/3) * exp(.6)
 // disp('Cota error cúbico: ' + string(cotaErrorCubico))
+
 
 // // Lineal:
 // x = [.2 .4]
@@ -145,11 +145,11 @@ endfunction
 
 
 // Ejercicio 3
-// WTF TODO en papel
+// TODO en papel, son varias interpolaciones lineales
 
 
 // Ejercicio 4
-// TODO CORREGIR EN BASE AL ANTERIOR
+// TODO Revisar el error
 x = [2 2.1 2.2 2.3 2.4 2.5]
 y = [0.2239 0.1666 0.1104 0.0555 0.0025 -0.0484]
 
@@ -300,8 +300,6 @@ y = [102.56 113.18  130.11  142.05  167.53  195.14  224.87  256.73  299.5   326.
 // a)
 p1 = minimosCuadrados(x, y, 1)
 p2 = minimosCuadrados(x, y, 2)
-
-// TODO REVISAR DICE QUE LA MATRIZ ES MUY CERCANA A SINGULAR
 p3 = minimosCuadrados(x, y, 3)
 
 // Gráficos de funciones
@@ -361,7 +359,7 @@ endfunction
 // Calcula n nodos de Chebyshev
 // para el intervalo [-1, 1]
 // Retora el polinomio de Chebyshev p de grado n y sus raices r
-function [p, r] = chebyshev(n)
+function [p, r] = chebyshevConRaices(n)
     // Casos base
     c(1) = poly(1, 'x', 'c')
     c(2) = poly([0 1], 'x', 'c')
@@ -375,7 +373,7 @@ endfunction
 
 // Ejercicio 10
 // a)
-[p, x] = chebyshev(4)
+[p, x] = chebyshevConRaices(4)
 y = exp(x)
 
 p = interpolacionLagrange(x, y)
@@ -391,7 +389,7 @@ p = interpolacionLagrange(x, y)
 // a partir de un cambio lineal de variable 
 // Retora el polinomio de Chebyshev p de grado n y sus raices r
 function nc = nodosChebyshev(n, a, b)
-    [p, r] = chebyshev(n)
+    [p, r] = chebyshevConRaices(n)
     nc = ((b + a) + r * (b - a)) / 2
 endfunction
 
