@@ -1,0 +1,594 @@
+\documentclass[11pt]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usetheme{default}
+
+\graphicspath{ {./Graficos/} }
+
+\begin{document}
+	\author{\small{Delfina Martín - Nicolás Martinez - Lucas Ruffini - Leonid Chanco}}
+	\title{Solución de ejercicio seleccionado}
+	\subtitle{Ejercicio 11.81}
+	\logo{\includegraphics[scale = 0.2]{unr.png}}
+	\institute{Universidad Nacional de Rosario}
+	\date{14 de Octubre - 2020}
+	\setbeamercovered{transparent}
+	\setbeamertemplate{navigation symbols}{}
+	
+	\AtBeginSection[]
+	{
+		\begin{frame}
+			\frametitle{Sección}
+			\tableofcontents[currentsection]
+		\end{frame}
+	}
+	
+	\begin{frame}[plain]
+		\maketitle
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Estructura de la presentación}
+		\tableofcontents
+	\end{frame}
+	
+	\section{Enunciado}	
+	\begin{frame}
+		\frametitle{Enunciado}
+		El registro de aceleración que se muestra en la figura se obtuvo durante las pruebas de rapidez de un automovil deportivo. Si se sabe que el automóvil inicia desde el reposo, determine de manera aproximada \pause
+		
+		\begin{itemize}
+			\item[a-] la velocidad del automóvil en $t = 8s$ \pause
+			\item[b-] la distancia recorrida por el automóvil en $t = 20s$
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Enunciado (cont)}
+		
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.3]{1.png}
+			\caption{Aceleración del automóvil en función del tiempo transcurrido}
+			\label{fig:AcAutomovil}
+		\end{figure}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Tabulación de los datos observados}
+		
+		\begin{table}[H]
+			\centering
+			\begin{tabular}{|c|c|}
+				\hline
+				$t$ [$s$] & $a$ [$\frac{m}{s^{2}}$]\\
+				\hline
+				0&6.5\\
+				\hline
+				2&5\\
+				\hline
+				4&3.8\\
+				\hline
+				6&2.9\\
+				\hline
+				8&2.3\\
+				\hline
+				10&1.9\\
+				\hline
+				12&1.5\\
+				\hline
+				14&1.3\\
+				\hline
+				16&1.1\\
+				\hline
+				18&1\\
+				\hline
+				20&1\\
+				\hline
+				22&0.9\\
+				\hline
+			\end{tabular}
+			\qquad
+			\begin{tabular}{|c|c|}
+				\hline
+				$\Delta t$ & $a_{m}$ [$\frac{m}{s^{2}}$]\\
+				\hline
+				$[0,2]$&5.75\\
+				\hline
+				$[2,4]$&4.4\\
+				\hline
+				$[4,6]$&3.35\\
+				\hline
+				$[6,8]$&2.6\\
+				\hline
+				$[8,10]$&2.1\\
+				\hline
+				$[10,12]$&1.7\\
+				\hline
+				$[12,14]$&1.4\\
+				\hline
+				$[14,16]$&1.2\\
+				\hline
+				$[16,18]$&1.05\\
+				\hline
+				$[18,20]$&1\\
+				\hline
+				$[20,22]$&0.95\\
+				\hline
+			\end{tabular}
+			\caption{Valores asociados a la curva del enunciado}
+			\label{tab:Aceleraciones}
+		\end{table}
+	\end{frame}
+
+	\section{Solución propuesta por el libro}
+	\subsection{Inciso a}
+	\begin{frame}
+		\frametitle{Inciso a}
+		
+		Queremos aproximar la velocidad del automóvil luego de 8 segundos de haber iniciado. Para esto vamos a valernos de una solución gráfica.
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Inciso a (cont)}
+		La velocidad en cualquier instante de una partícula es igual a la pendiente de la curva que describe su posición respecto al tiempo; y análogamente la aceleración de la misma es igual a la pendiente de la curva que describe la velocidad con respecto al tiempo. En símbolos,\\
+		
+		\begin{block}{}
+			\begin{equation} \label{eq:ffundamentales}
+			v = \frac{dx}{dt} \hspace{5mm} a = \frac{dv}{dt}
+			\end{equation}
+		\end{block}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Inciso a (cont)}
+		
+		Al integrar estas ecuaciones en un intervalo $[t_{1}, t_{2}]$ se obtienen las siguientes ecuaciones
+		
+		\begin{equation} \label{eq:cambioDexv}
+		x_{2} - x_{1} = \int_{t_{1}}^{t_{2}} v \, dt \hspace{5mm} v_{2} - v_{1} = \int_{t_{1}}^{t_{2}} a \, dt
+		\end{equation}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Inciso a (cont)}
+		
+		Las cuales expresan que el \alert{área} medida bajo la curva de velocidad (aceleración) en el intervalo $[t_{1}, t_{2}]$ es igual al \alert{cambio} de x (v) en ese mismo intervalo. Teniendo en cuenta las ecuaciones en (\ref{eq:cambioDexv}) y los valores de las tablas en (\ref{tab:Aceleraciones}) podemos calcular
+		
+		\begin{align*}
+		v_{i+1} - v_{i} &= \text{área bajo la curva de aceleración en [i,i+1]} \;\\
+		                &= (t_{i+1} - t_{i})(a_{m_{i}}) = 2a_{m_{i}} \hspace{5mm} \forall i \in \{0,2,...,20\}\\
+		\end{align*}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Inciso a (cont)}
+		
+		\begin{table}[H]
+			\centering
+			\begin{tabular}{|c|c|}
+				\hline
+				$\Delta t$ & $(t_{i+1} - t_{i})(a_{m_{i}})$ [$\frac{m}{s}$]\\
+				\hline
+				$[0,2]$&11.5\\
+				\hline
+				$[2,4]$&8.8\\
+				\hline
+				$[4,6]$&6.7\\
+				\hline
+				$[6,8]$&5.2\\
+				\hline
+				$[8,10]$&4.2\\
+				\hline
+				$[10,12]$&3.4\\
+				\hline
+				$[12,14]$&2.8\\
+				\hline
+				$[14,16]$&2.4\\
+				\hline
+				$[16,18]$&2.1\\
+				\hline
+				$[18,20]$&2\\
+				\hline
+				$[20,22]$&1.9\\
+				\hline
+			\end{tabular}
+			\qquad
+			\begin{tabular}{|c|c|}
+				\hline
+				$t$ [$s$] & $v$ [$\frac{m}{s}$]\\
+				\hline
+				0&0\\
+				\hline
+				2&11.5\\
+				\hline
+				4&20.3\\
+				\hline
+				6&27\\
+				\hline
+				8&32.2\\
+				\hline
+				10&36.4\\
+				\hline
+				12&39.8\\
+				\hline
+				14&42.8\\
+				\hline
+				16&45\\
+				\hline
+				18&47.1\\
+				\hline
+				20&49.1\\
+				\hline
+				22&51\\
+				\hline
+			\end{tabular}
+			\caption{Puntos de paso de la curva que describe la velocidad del automóvil con respecto al tiempo}
+			\label{tab:Velocidades}
+		\end{table}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Inciso a (cont)}
+		
+		\begin{table}[H]
+			\centering
+			\begin{tabular}{|c|c|}
+				\hline
+				$\Delta t$ & $(t_{i+1} - t_{i})(a_{m_{i}})$ [$\frac{m}{s}$]\\
+				\hline
+				$[0,2]$&11.5\\
+				\hline
+				$[2,4]$&8.8\\
+				\hline
+				$[4,6]$&6.7\\
+				\hline
+				$[6,8]$&5.2\\
+				\hline
+				$[8,10]$&4.2\\
+				\hline
+				$[10,12]$&3.4\\
+				\hline
+				$[12,14]$&2.8\\
+				\hline
+				$[14,16]$&2.4\\
+				\hline
+				$[16,18]$&2.1\\
+				\hline
+				$[18,20]$&2\\
+				\hline
+				$[20,22]$&1.9\\
+				\hline
+			\end{tabular}
+			\qquad
+			\begin{tabular}{|c|c|}
+				\hline
+				$t$ [$s$] & $v$ [$\frac{m}{s}$]\\
+				\hline
+				0&0\\
+				\hline
+				2&11.5\\
+				\hline
+				4&20.3\\
+				\hline
+				6&27\\
+				\hline
+				\alert{8}&\alert{32.2}\\
+				\hline
+				10&36.4\\
+				\hline
+				12&39.8\\
+				\hline
+				14&42.8\\
+				\hline
+				16&45\\
+				\hline
+				18&47.1\\
+				\hline
+				20&49.1\\
+				\hline
+				22&51\\
+				\hline
+			\end{tabular}
+			\caption{Puntos de paso de la curva que describe la velocidad del automóvil con respecto al tiempo}
+			\label{tab:Velocidades2}
+		\end{table}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Inciso a (cont)}
+		
+		Concluímos que la velocidad en el segundo 8 es $\approx 32.2 \, \frac{m}{s}$.
+	\end{frame}
+
+	\subsection{Inciso b}
+	\begin{frame}
+		\frametitle{Inciso b}
+		
+		Ahora queremos aproximar la distancia recorrida por el automóvil luego de 20 segundos de haber iniciado. De forma análoga al inciso anterior pero ahora basándonos en los valores de las tablas de velocidades obtenemos
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Inciso b (cont)}
+		
+		\begin{table}[H]
+			\centering
+			\begin{tabular}{|c|c|}
+				\hline
+				$t$ [$s$] & $v$ [$\frac{m}{s}$]\\
+				\hline
+				0&0\\
+				\hline
+				2&11.5\\
+				\hline
+				4&20.3\\
+				\hline
+				6&27\\
+				\hline
+				8&32.2\\
+				\hline
+				10&36.4\\
+				\hline
+				12&39.8\\
+				\hline
+				14&42.8\\
+				\hline
+				16&45\\
+				\hline
+				18&47.1\\
+				\hline
+				20&49.1\\
+				\hline
+				22&51\\
+				\hline
+			\end{tabular}
+			\qquad
+			\begin{tabular}{|c|c|}
+				\hline
+				$\Delta t$ & $v_{m}$ [$\frac{m}{s}$]\\
+				\hline
+				$[0,2]$&5.75\\
+				\hline
+				$[2,4]$&15.9\\
+				\hline
+				$[4,6]$&23.65\\
+				\hline
+				$[6,8]$&29.6\\
+				\hline
+				$[8,10]$&34.3\\
+				\hline
+				$[10,12]$&38.1\\
+				\hline
+				$[12,14]$&41.3\\
+				\hline
+				$[14,16]$&43.9\\
+				\hline
+				$[16,18]$&46.05\\
+				\hline
+				$[18,20]$&48.1\\
+				\hline
+				$[20,22]$&50.05\\
+				\hline
+			\end{tabular}
+			\caption{Velocidades medias del automóvil aproximadas por intervalo de tiempo}
+			\label{tab:Posiciones}
+		\end{table}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Inciso b (cont)}
+		
+		Una vez obtenidas las velocidades medias, aproximamos las posiciones del automóvil.
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Inciso b (cont)}
+		
+		\begin{table}[H]
+			\centering
+			\begin{tabular}{|c|c|}
+				\hline
+				$\Delta t$ & $(t_{i+1} - t_{i})(v_{m_{i}})$ [$\frac{m}{s}$]\\
+				\hline
+				$[0,2]$&11.5\\
+				\hline
+				$[2,4]$&31.8\\
+				\hline
+				$[4,6]$&47.3\\
+				\hline
+				$[6,8]$&59.2\\
+				\hline
+				$[8,10]$&68.6\\
+				\hline
+				$[10,12]$&76.2\\
+				\hline
+				$[12,14]$&82.6\\
+				\hline
+				$[14,16]$&87.8\\
+				\hline
+				$[16,18]$&92.1\\
+				\hline
+				$[18,20]$&96.2\\
+				\hline
+				$[20,22]$&100.1\\
+				\hline
+			\end{tabular}
+			\qquad
+			\begin{tabular}{|c|c|}
+				\hline
+				$t$ [$s$] & $x$ [$m$]\\
+				\hline
+				0&0\\
+				\hline
+				2&11.5\\
+				\hline
+				4&43.3\\
+				\hline
+				6&90.6\\
+				\hline
+				8&149.8\\
+				\hline
+				10&218.4\\
+				\hline
+				12&294.6\\
+				\hline
+				14&377.2\\
+				\hline
+				16&465\\
+				\hline
+				18&557.1\\
+				\hline
+				20&653.3\\
+				\hline
+				22&753.4\\
+				\hline
+			\end{tabular}
+			\caption{Puntos de paso de la curva que describe la posición del automóvil con respecto al tiempo}
+			\label{tab:Posiciones2}
+		\end{table}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Inciso b (cont)}
+		
+		\begin{table}[H]
+			\centering
+			\begin{tabular}{|c|c|}
+				\hline
+				$\Delta t$ & $(t_{i+1} - t_{i})(v_{m_{i}})$ [$\frac{m}{s}$]\\
+				\hline
+				$[0,2]$&11.5\\
+				\hline
+				$[2,4]$&31.8\\
+				\hline
+				$[4,6]$&47.3\\
+				\hline
+				$[6,8]$&59.2\\
+				\hline
+				$[8,10]$&68.6\\
+				\hline
+				$[10,12]$&76.2\\
+				\hline
+				$[12,14]$&82.6\\
+				\hline
+				$[14,16]$&87.8\\
+				\hline
+				$[16,18]$&92.1\\
+				\hline
+				$[18,20]$&96.2\\
+				\hline
+				$[20,22]$&100.1\\
+				\hline
+			\end{tabular}
+			\qquad
+			\begin{tabular}{|c|c|}
+				\hline
+				$t$ [$s$] & $x$ [$m$]\\
+				\hline
+				0&0\\
+				\hline
+				2&11.5\\
+				\hline
+				4&43.3\\
+				\hline
+				6&90.6\\
+				\hline
+				8&149.8\\
+				\hline
+				10&218.4\\
+				\hline
+				12&294.6\\
+				\hline
+				14&377.2\\
+				\hline
+				16&465\\
+				\hline
+				18&557.1\\
+				\hline
+				\alert{20}&\alert{653.3}\\
+				\hline
+				22&753.4\\
+				\hline
+			\end{tabular}
+			\caption{Puntos de paso de la curva que describe la posición del automóvil con respecto al tiempo}
+			\label{tab:Posiciones2}
+		\end{table}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Inciso b (cont)}
+		Concluímos que la posición en el segundo 20 es $\approx 653.3m$.
+	\end{frame}
+
+	\section{Solución alternativa}
+	\begin{frame}
+		\frametitle{Estructura de la solución}
+		
+		\begin{itemize}
+			\item Aproximamos la curva que describe la aceleración del automóvil respecto al tiempo mediante un polinomio.
+			\item Integramos la función obtenida en el ítem anterior para así obtener una función que describa la velocidad del automóvil con respecto al tiempo y luego la evaluamos en $t = 8s$.
+			\item Análogamente, integramos la función obtenida en el ítem anterior para así obtener una función que describa la posición del automóvil con respecto al tiempo y luego la evaluacmos en $t = 8s$.
+		\end{itemize}		
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Solución alternativa}
+		Con ayuda de software especializado conseguimos la ecuación (\ref{eq:Aprox}) para describir la curva de aceleración.
+		
+		\begin{equation} \label{eq:Aprox}
+		g(x) = \frac{1}{119650} (x-28.4)^4 + 0.945
+		\end{equation}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Solución alternativa}
+		Luego la integramos y obtuvimos (\ref{eq:IntAprox})
+		
+		\begin{align} \label{eq:IntAprox}
+		f(x) =& \int g(x)\\
+			 =& \frac{1}{598250} x^{5} - 2.37\text{.}10^{-4} x^4 \nonumber\\
+			 &+ 1.35\text{.}10^{-2} x^3 - 3.83\text{.}10^{-1} x^2 + 6.39 x \nonumber
+		\end{align}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Solución alternativa}
+		
+		Con lo cual concluímos que $v(8s) \approx 32.54\frac{m}{s}$
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Solución alternativa}
+		De forma análoga integramos nuevamente para obtener (\ref{eq:IntIntAprox})
+		
+		\begin{align} \label{eq:IntIntAprox}
+		h(x) =& \int f(x)\\
+		     =&\frac{1}{3589500} x^{6} - 4.75\text{.}10^{-5} x^5 \nonumber\\
+		     &+ 3.37\text{.}10^{-3} x^4 - 1.28\text{.}10^{-1} x^3 + 3.19 x^2 \nonumber
+		\end{align}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Solución alternativa}
+		
+		A partir de la cuál concluimos $x(20s) \approx 660.57m$
+	\end{frame}
+
+	\section{Comparación de resultados}
+	\begin{frame}
+		\frametitle{Comparación de resultados en diferentes soluciones}
+	
+		\begin{table}
+			\centering
+			\begin{tabular}{c|cc}
+				&v(8s)&x(20s)\\
+				\hline
+				Solución a lo Beer\&Johnston&$32.2 \, \frac{m}{s}$&$653.3m$\\
+				Solución a lo Taylor&$32.54\frac{m}{s}$&$660.57m$\\
+			\end{tabular}
+		\end{table}
+	\end{frame}
+	
+\end{document}

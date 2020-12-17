@@ -216,6 +216,8 @@ function [lambda, z, i] = metodoDeLaPotencia(A, z, eps, maxIter)
     lambda = w(k) / z(k)
 endfunction
 
+A=[-7 13 -16; 13 -10 13; -16 13 -7];
+
 A1 = [6 4 4 1;
       4 6 1 4;
       4 1 6 4;
@@ -256,3 +258,23 @@ endfunction
 
 // plot(diff1)
 // plot(diff2)
+
+
+
+function [lambda, zs, autoValor_max, i] = f(A, z, eps, maxIter)
+    autoValores = spec(A)
+    [_, k] = max(abs(autoValores))
+    autoValor_max = autoValores(k)
+    
+    //zs = zeros(2, 1)
+    // lambda es el vector de todos los valores de las iteraciones
+    // del autovalor que queremos calcular
+    for i=1:maxIter
+        [lambda(i), zs(i, :), _] = metodoDeLaPotencia(A, z, 0, 1)
+        z = zs(i, :)'
+        if abs(lambda(i) - autoValor_max) <= eps
+            break
+        end
+    end
+
+endfunction
