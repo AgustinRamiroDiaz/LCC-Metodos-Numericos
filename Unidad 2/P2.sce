@@ -1,33 +1,39 @@
 // Ejercicio 1
 
-//Calcula las raíces de forma robusta para un polinomio de grado 2
+// Calcula las raíces de forma robusta para un polinomio de grado 2
+// Retorna un vector columna con las soluciones de x- y x+
 function x = raices(p)
     a = coeff(p, 2)
     b = coeff(p, 1)
     c = coeff(p, 0)
+
+    determinante = b^2 - 4*a*c
+
     // Veo que el discriminante no sea negativo
-    if b*b - 4 * a * c < 0 then x(1) = %nan; x(2) = %nan; return x end
+    if determinante < 0 then x(1) = %nan; x(2) = %nan; return end
+
+    sqrtDet = sqrt(determinante)
 
     if b < 0 
         then
-        x1 = 2*c / (-b + sqrt(b ^ 2 - 4 * a * c));
-        x2 = -b + sqrt(b ^ 2 - 4 * a * c);
-        else
-            if b == 0
-                then 
-                    x1 = sqrt(-c / a)
-                    x2 = - x1
-                else
-                    x1 = -b - sqrt(b ^ 2 - 4 * a * c);
-                    x2 = 2*c / (-b - sqrt(b ^ 2 - 4 * a * c));
-            end
+        x(1) = 2*c / (-b + sqrtDet);
+        x(2) = (-b + sqrtDet) / 2 / a;
+    else
+        if b == 0
+            then 
+                x(1) = sqrt(-c / a)
+                x(2) = -x(1)
+            else
+                x(1) = (-b - sqrtDet) / 2 / a;
+                x(2) = 2*c / (-b - sqrtDet);
+        end
     end
-    x(1) = x1
-    x(2) = x2
 endfunction
 
 // Ejercicio 3
-// a
+// a y c en pdf
+
+// b
 function v = hornerNew(p, x)
     v = hornerAux (p, x, 0)
     
@@ -95,13 +101,6 @@ function r = Taylor(f, v, n, epsilon, a)
     r = 0
     for (i = 0:n) 
         r = r + derivar (f, a, i, epsilon) * (v - a) ^ i / factorial (i)
-    end
-endfunction
-
-function f = factorial(n)
-    f = 1
-    for (i = 1:n)
-        f = f * i
     end
 endfunction
 
