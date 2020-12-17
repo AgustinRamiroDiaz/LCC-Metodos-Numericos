@@ -46,7 +46,9 @@ function v = hornerAux(p, x, n)
     end
 endfunction
 
-function b = horner1(p, x)
+// Evalúa de forma eficiente el polinomio p
+// aplicado a x con el algoritmo de Horner
+function b = Horner(p, x)
     b = coeff(p, degree(p)) 
     for (i = degree(p) - 1: -1: 0)
         b = coeff(p, i) + x * b
@@ -55,14 +57,18 @@ endfunction
 
 //d
 
-
-function x = horner2(p, x)
+// Implementa una generalización del algoritmo Horner
+// de tal forma que se pueda calcular p(x) y p'(x)
+function x = HornerConDerivada(p, x)
     b = coeff(p, degree(p)) 
     c = b * x ^ (degree(p) - 1)
+
     for (i = degree(p) - 1: -1: 1)
         b = coeff(p, i) + x * b
         c = c + b * x ^ (i - 1)
     end
+
+    // Hay que hacer una iteración por fuera ya que la derivada tiene un término menos
     b = coeff(p, 0) + x * b
     x(1) = b
     x(2) = c
@@ -70,10 +76,14 @@ endfunction
 
 
 //Ejercicio 4
-function r = derivar(f, v, n, epsilon)
+
+// Toma una función f, un valor v, un orden n y un paso h 
+// y retorna el valor de evaluar la derivada de f de orden n en el punto v
+// utilizando el cociente incremental
+function r = derivar(f, v, n, h)
     if n == 0 
         then r = f (v)
-        else r = (derivar (f, v + epsilon, n-1) - derivar (f, v, n-1)) / epsilon
+        else r = (derivar (f, v + h, n-1) - derivar (f, v, n-1)) / h
     end
 endfunction
 
@@ -88,23 +98,37 @@ function x = derivarIterativo(f,v,n,h)
 endfunction
 
 // a
-// Estamos aproximando la función derviada a partir de un epsilon
+// Estamos aproximando la función derviada a partir de un paso h
 // También tenemos errores de redondeo
 
 //b
-// dividimos n veces por epsilon, lo cual hace que dividimos por un número muy cercano a 0
+// dividimos n veces por h, lo cual hace que dividimos por un número muy cercano a 0
 
 //5
-// crea un polinomio de Taylor de la función f alrededor del punto a
-// de grado n, aproximando sus derivadas con epsilon
-function r = Taylor(f, v, n, epsilon, a)
+// Calcula el valor de un polinomio de Taylor de la función f aplicado en v 
+// alrededor del punto a de grado n, aproximando sus derivadas con el cociente incremental con paso h
+function r = Taylor(f, v, n, h, a)
     r = 0
     for (i = 0:n) 
-        r = r + derivar (f, a, i, epsilon) * (v - a) ^ i / factorial (i)
+        r = r + derivar (f, a, i, h) * (v - a) ^ i / factorial (i)
     end
 endfunction
 
 //6
 
-//a
-// poly([1 1 1/2 1/6 1/factorial(4) 1/factorial(5) 1/factorial(6) 1/factorial(7) 1/factorial(8) 1/factorial(9) 1/factorial(10)], "x", "c")
+// b
+
+coeficientes = 1 ./ factorial(0:10)
+t = poly(coeficientes, "x", "c")
+    // a
+a = Horner(t, -2)
+    // b 
+b = 1 / Horner(t, 2)
+
+valorCorrecto = 0.135
+
+aerror = abs(a - valorCorrecto) / valorCorrecto
+berror = abs(b - valorCorrecto) / valorCorrecto
+
+// 1/e^2 aproxima mejor ya que hace solo suma de términos positivos
+// mientras que e^-2 suma términos alternantes, lo cual aumenta el error
